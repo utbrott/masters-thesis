@@ -1,0 +1,60 @@
+% !TEX program = xelatex
+% !TeX encoding = utf8
+% !TeX spellcheck = pl-PL
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wybierz rodzaj pracy dyplomowej oraz wydział
+% Pick thesis type and faculty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[thesis=mgr,faculty=ee]{EE-dyplom} 
+
+% thesis=[inz|mgr|bsc|msc]
+%  * inz - praca inżynierska
+%  * mgr - praca magisterska
+%  * bsc - bachelor thesis
+%  * msc - master thesis
+
+% Skróty nazw wydziałów zgodne z domenami internetowymi
+% Abbreviations of Faculties according to Internet subdomains
+% faculty=[
+%	arch,
+%	gik,
+%	ee,
+%	wip
+%	]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Konfiguracja - do personalizacji
+% Configuration - to be personalized
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\instytut{Instytut Elektrotechniki Teoretycznej i Systemów Informacyjno-Pomiarowych}
+\kierunek{Elektrotechnika}
+\specjalnosc{Systemy Wbudowane}
+\title{Prywatna sieć czujnikowa wykorzystująca standard LoRa}
+\engtitle{Private sensor network using the LoRa standard}
+\album{290988}
+\author{inż. Mikołaj Rosiński}
+\promotor{dr inż. Łukasz Makowski}
+\date{2023}
+
+%\grantlicense{TRUE} % [TRUE|FALSE]
+
+\input{text/abstract}
+
+\begin{document}
+\frontpages
+
+\input{text/main}
+
+\bibliografia
+
+% Wykaz symboli i skrótów - patrz opis w tekście przykładowym
+\acronymslist
+% Spis rysunków
+\listoffigures
+% Spis tabel
+\listoftables
+% Załączniki (plik appendices.tex)
+% \easyappendices
+\end{document}
+
