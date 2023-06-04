@@ -15,7 +15,6 @@ Makefile
 **/*.log
 **/*.lot
 **/*.out
-**/*.pdf
 **/*.run.xml
 **/*.slg
 **/*.slo
@@ -23,3 +22,6 @@ Makefile
 **/*.swp
 **/*.toc
 .vscode
+**/*.synctex.gz
+gfx/*.pdf
+EE-dyplom.synctex.gz
