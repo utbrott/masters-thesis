@@ -1,0 +1,61 @@
+Całość oprogramownia wykorzystuje język programowania \texttt{C++}. Projektowana oraz implementowana sieć składa się
+z~dwóch typów modułów, stąd też pojawiła się potrzeba zainicjowania dwóch osobnych projektów -- jednego pod elementy
+sieci LoRa oraz drugiego, dedykowanego dla modułu webserwera, z~uwagi na zupełnie inną platformę sprzętową. Firmware
+napisany został z~wykorzystaniem kilku różnych podejść:
+\begin{itemize}[label=--]
+    \item modułowego: każdy plik źródłowy odpowiada za zbiór funkcji wykonujących określone zadania (np. praca
+          z~biblioteką do modułów LoRa zaimplementowana jest w~pliku \texttt{lora.cpp}),
+    \item zorientowanego obiektowo: większość elementów kodu źródłowego jest reprezentowana w~postaci osobnego
+          obiektu. Każdy z~nich posiada swoje funkcje oraz pełni określone zadania (np. obiekt \texttt{bme} ma za
+          zadanie umożliwić współpracę z~sensorami dostępnymi na płytce czujników BME280, która podłączona jest do
+          każdego modułu SLAVE).
+\end{itemize}
+Ponadto, z~uwagi na wykorzystanie modułów posiadających duże ilości pamięci RAM dostępnej na oprogramowanie,
+wykorzystane zostały dostępne w~nowszych wersjach języka \texttt{C++} -- funkcje szablonowe (ang. \textsl{template
+    functions}) lub pętle typu \texttt{for-range}. Są to elementy, które znacznie ułatwiły implementację kodu oraz
+pozwoliły na minimalizację powtarzalności pewnych elementów.
+
+\section{Framework oraz biblioteki\label{sect:framework-libraries}} Bazą do oprogramowania na wszystkich modułach jest
+framework Arduino oraz jego modyfikacja pod platformę STM32 -- stm32duino, która pozwala na wykorzystanie pełnej
+funkcjonalności rdzenia Arduino \cite{stm32duino-docs}. Pomimo tego, że biblioteki HAL (ang. \textsl{Hardware
+    Abstraction Layer}) oraz framework stm32 są narzędziami dedykowanymi, w~przypadku tego projektu nie można było ich
+zastosować. Oryginalna biblioteka do obsługi modułów rozszerzeń LoRa, została wycofana z~użytku na rzecz nowszej
+implementacji, pod nowszą wersję płytek Nucleo z~wbudowanym hardware.
+
+\subsection{Wykorzystane biblioteki\label{sect:used-libs}} Do implementacji oprogramowania na wszystkie moduły
+wykorzystane zostało kilka bibliotek, które pozwalały na dodanie pełnego zakresu funkcjonalności do każdego z~projektów.
+
+W przypadku bibliotek zewnętrznych (nie będących częścią rdzenia Arduino) były to:
+\begin{itemize}[label=--]
+    \item STM32duino I-NUCLEO-LRWAN1: biblioteka do uruchomienia oraz pracy z~modułem rozszerzeń LoRa. Pozwala ona na
+          pracę w~dwóch trybach: LoRaRadio -- implementacja wykorzystująca tylko standard dolnej warstwy sprzętowej LoRa
+          oraz LoRaWAN -- dodająca możliwość podłączenia modułów do istniejącej sieci LoRa oraz wysyłanie i~odbieranie
+          z~niej wiadomości,
+    \item Adafruit BME280 Library: biblioteka dedykowana do modułów BME280, pozwalająca na zbieranie danych z~sensorów,
+          wykorzystując do tego magistralę SPI albo I2C (w zależności od posiadanego modułu rozszerzeń),
+    \item Adafruit BusIO: uniwersalna biblioteka dodająca pewien poziom abstrakcji do komunikacji po magistralach I2C
+          oraz SPI,
+    \item WiFi101: biblioteka, która daje możliwość wykorzystania modułu WiFi obecnego na płytce Adafruit Feather M0
+          (wykorzystanej do uruchomienia serwera w~sieci lokalnej).
+\end{itemize}
+Ponadto, wykorzystane zostały biblioteki I2C oraz SPI, dostępne w~rdzeniu Arduino. Potrzebne były one do uzyskania
+komunikacji pomiędzy mikrokontrolerem Adafruit Feather M0 a~modułuem WiFi, sensorami BM280 podłączonymi do modułów SLAVE
+oraz do stworzenia połączenia pomiędzy modułem MASTER, a~płytką z~serwerem sieci lokalnej.
+
+\subsection{Ograniczenia związane z~wykorzystaniem Arduino oraz STM32duino\label{sect:framework-limits}} STM32duino,
+pomimo tego, że ułatwił, bądź w ogóle pozwolił na pracowanie z~wykorzystywanymi modułami nie jest platformą idealną,
+pozbawioną ograniczeń. Jedynym z~nich, które w dość znacznym stopniu utrudniło implementację oprogramowania dla modułów
+sieci, był brak przerwań programowych oraz ograniczone możliwości zastosowania przerwań sprzętowych. Stąd też, pojawił
+się wymóg zastosowania pewnych obejść, jednocześnie tracą na wydajności implementowanego rozwiązania. Ponadto,
+występowały też problemy związane z działaniem magistrali I2C, tutaj w~przypadku modułów Feather oraz standardowego
+Arduino -- nie możliwe było wykorzystanie wyświetlacza OLED pracującego na magistrali I2C oraz zarejestrowania samego
+mikrokontrolera jako części, z którą można komunikować się po tej magistrali.
+
+\section{Implementacja opgrogramowania elementów sieci\label{sect:firmware-network}}
+
+\subsection{Oprogramowanie modułu MASTER\label{sect:firmware-master}}
+
+\subsection{Oprogramownie modułów SLAVE\label{sect:firmware-slave}}
+
+\section{Implementacja oprogramowania modułu webserwera\label{sect:firmware-webserver}}
+
