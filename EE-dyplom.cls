@@ -876,5 +876,5 @@
     \textcolor{EEBlueDark}{\texttt{#1}}
 }
 
-\RequirePackage{placeins}
+\RequirePackage[section]{placeins}
 \RequirePackage{nicefrac}
