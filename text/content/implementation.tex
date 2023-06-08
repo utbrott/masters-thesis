@@ -10,10 +10,17 @@ platformę sprzętową. Firmware napisany został z~wykorzystaniem kilku różny
           umożliwić współpracę z~sensorami dostępnymi na płytce czujników BME280, która podłączona jest do każdego
           modułu SLAVE).
 \end{itemize}
-Ponadto, z~uwagi na wykorzystanie modułów posiadających duże ilości pamięci RAM dostępnej na oprogramowanie,
-wykorzystane zostały dostępne w~nowszych wersjach języka \texttt{C++} -- funkcje szablonowe (ang. \textsl{template
-    functions}) lub pętle typu \texttt{for-range}. Są to elementy, które znacznie ułatwiły implementację kodu oraz
-pozwoliły na minimalizację powtarzalności pewnych elementów.
+Ponadto, wykorzystane zostały elementy języka \texttt{C++}, które dostępne są w~nowszych wersjach -- funkcje szablonowe
+(ang. \textsl{template functions}) lub pętle typu \texttt{for-range}. Są to elementy, które znacznie ułatwiły
+implementację kodu oraz pozwoliły na minimalizację powtarzalności pewnych elementów.
+
+Z uwagi na zastosowanie podejścia modułowego, całość oprogramowania składa się z~wielu mniejszych elementów,
+podzielonych na odpowiadające im pliki. Aby mieć pewność, że implementowane funkcje nie będą posiadały żadnych kolizji
+w~swoich nazwach zastosowane zostały przestrzenie nazw (ang. \textsl{namespaces}). Dodatkowo, ponieważ kod źródłowy
+jest dostępny w~domenie publicznej (repozytorium na platformie GitHub z~licencją \textsl{MIT} \cite{snyk-sw-license}),
+podjęta została decyzja o~dodaniu opisów działania do wszystkich elementów. Wykorzystany został do tego \textsl{Doxygen}
+-- narzędzie do generowania dokumentacji (np. formie strony internetowej lub dokumentu w~\LaTeX) na podstawie
+specjalnych znaczników w~komentarzach \cite{doxygen}.
 
 \section{Framework oraz biblioteki\label{sect:framework-libraries}} Bazą do oprogramowania na wszystkich modułach jest
 framework Arduino oraz jego modyfikacja pod platformę STM32 -- stm32duino, która pozwala na wykorzystanie pełnej
@@ -117,8 +124,87 @@ funkcję w~sieci:
 Ostatnim krokiem w~obu przypadkach jest przejście do nieskończonej pętli i~wykonywanie instrukcji w~niej zawartych,
 wykorzystując do tego określony okres zegara.
 
-\FloatBarrier
-\subsection{Oprogramowanie modułu MASTER\label{sect:firmware-master}}
+Dodatkowo, oprogramowanie posiada zestaw definicji oraz funkcji wykorzystywanych do debugowania, które ułatwiały
+implementację oprogramowania -- \texttt{globals.h} oraz \texttt{debug.h}. Najważniejszymi elementami pliku globalnych
+definicji są funkcje preprocesora -- zwracających tylko ID modułu lub ID danej na podstawie kodu zapytania oraz
+struktury szablonowe (ang. \textsl{template structures}), które zawierają informację o~tym jaki kształt powinny mieć
+dane zbierane z~sensorów oraz przekazywane przez sieć. Definicję przedstawiono na listingu \ref{lst:globals}, natomiast
+dla funkcji wysłającej sformatowane wiadomości przez port szeregowy na listingu \ref{lst:debug}. Implementacja oparta
+została o~funkcję z~rdzeniu Arduino -- \texttt{Serial.println()}.
+
+\lstinputlisting[
+    language=C++,
+    linerange={6-8,15-39},
+    caption={Definicje funkcji dla preprocesora oraz struktury szablonowe (z polami o~jednej wartości oraz z~tablicami)},
+    label={lst:globals},
+]{lora-psn/include/globals.h}
+
+\lstinputlisting[
+    language=C++,
+    linerange={20-26},
+    caption={Funkcji wykorzystywana do wysyłania sformatowanych wiadomości przez port szeregowy},
+    label={lst:debug},
+]{lora-psn/include/debug.h}
+
+\FloatBarrier \subsection{Oprogramowanie modułu MASTER\label{sect:firmware-master}} Po wykonaniu instrukcji, które
+opisane zostały w~poprzedniej sekcji, moduł MASTER przechodzi do pracy w~nieskończonej pętli -- \texttt{loop()}.
+Wszystko oparte jest na zegarze o~zdefiniowanym okresie -- wybrana została wartość 1~minuty (60000 milisekund).
+Implementacja oparta została o~zegar nieblokujący (ang. \textsl{non-blocking timer}) z~wykorzystaniem funkcji
+\texttt{millis()} -- funkcji zwracającej ilość milisekund od momentu startu programu. Okres został zdefiniowany
+w~definicjach preprocesora, w~celu uniknięcia tzw. magicznych liczb (ang. \textsl{magic numbers}).
+
+W momencie, gdy mija wymagany czas, program przechodzi do wykonania podprogramu odpowiadającego za wysyłanie zapytań
+oraz zbieranie odpowiedzi z~sieci. Na rys. \ref{img:master-flowchart} przedstawiony został diagram blokowy instrukcji
+wykonywanych przez moduł MASTER w~nieskończonej pętli oraz tego, co wykonywane jest w~podprogramie komunikacji.
+Natomiast pełna implementacja obu tych elementów przedstawiona została na listingu \ref{lst:main-loop}.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{firmware/MASTER-loop-flowchart}
+    \caption{\label{img:master-flowchart}Schemat blokowy nieskończonej pętli oraz podprogramu zbierania danych
+        zaimplementowanych dla modułu MASTER}
+\end{figure}
+
+\lstinputlisting[
+    language=C++,
+    linerange={100-108,110-114,133-173},
+    caption={Implementacja nieskończonej pętli oraz funkcji związanych z~podprogramem komunikacji w~sieci},
+    label={lst:main-loop},
+]{lora-psn/src/main.cpp}
+
+Pierwszym elementem podprogramu jest wysłanie nowego zapytania do sieci -- zaimplementowana została do tego funkcja
+\texttt{sendRequest()} zawarta w~przestrzeni nazw \texttt{lora}. Jej implementacja przedstawiona została na listingu
+\ref{lst:lora-sendrequest}. Pobierany jest kod, który ma zostać wysłany do sieci, następnie, wykorzystując funkcję
+\texttt{debug::println()} logowana jest przesyłana wartość. Korzystając z~funkcji, która dostępna jest w~bibliotece do
+obsługi modułu rozszerzeń LoRa, wysyłana jest wiadmość do sieci.
+
+\lstinputlisting[
+    language=C++,
+    linerange={37-43},
+    caption={Implementacja funkcji \texttt{lora::sendRequest()}},
+    label={lst:lora-sendrequest},
+]{lora-psn/src/lora.cpp}
+
+Następnie moduł MASTER oczekuje na odpowiedź od modułu SLAVE, który powinien wysłać odpowiedź. Jeżeli odpowiedź zostana
+otrzymana w~ciągu 500ms, następuje przejście do sprawdzenia czy pierwsze pole odpowiedzi -- identyfikator -- jest
+poprawne. Identyfikator zawiera informację o~ID odpowiadającego SLAVE-a oraz ID danej, której wartość jest przesyłana.
+W~przeciwnym razie, na port szeregowy przesyłana jest stosowna informacja, a~licznik zapytań z~błędem odpowiedzi jest
+zwiększany.
+
+Ostatecznie, jeżeli nie wystapił żadnen z~powyżej opisanych błędów, wykorzystując funkcję \texttt{lora::readResponse()},
+odczytana zostaje wartość przesłana w~odpowiedzi. Implementacja funkcji odczytującej przedstawiona została na listingu
+\ref{lst:lora-readresponse}.
+
+\lstinputlisting[
+    language=C++,
+    linerange={79-97},
+    caption={Implementacja funkcji odczytującej wartość odpowiedzi modułu SLAVE},
+    label={lst:lora-readresponse},
+]{lora-psn/src/lora.cpp}
+
+W funkcji sprawdzane są ID modułu, który odpowiedź wysłał oraz ID danej. Na podstawie tej wartości, aktualizowana jest
+odpowiednia indeks w~tablicy, która odpowiada polu struktury do przechowywania danych odbieranych z~sieci. Struktura ta
+przekazywana jest jako referencja do miejsca w~pamięci poprzez wskaźnik do jej adresu.
 
 \subsection{Oprogramowanie modułów SLAVE\label{sect:firmware-slave}}
 
