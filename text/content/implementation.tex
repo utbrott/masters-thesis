@@ -71,7 +71,7 @@ Schemat ideowy budowanej sieci przedstawiony został na rys. \ref{img:network-sc
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{lora-psn/images/network-schematic}
+    \includegraphics[width=0.8\textwidth]{lora-psn/images/network-schematic}
     \caption{\label{img:network-schematic}Schemat zbudowanej sieci, z~oznaczonymi elementami komunikacji}
 \end{figure}
 
@@ -83,7 +83,7 @@ przesyłane w~sieci. Fragment pliku konfiguracyjnego, który odpowiedzialny jest
 przedstawiony został na listingu \ref{lst:lora-ini}.
 
 \lstinputlisting[
-    linerange={26-32},
+    linerange={26-30},
     caption={Fragment pliku konfiguracyjnego (tutaj dla SLAVE1) odpowiedzialny za definicję typu oraz ID modułu},
     label={lst:lora-ini}
 ]{lora-psn/platformio.ini}
@@ -146,7 +146,8 @@ została o~funkcję z~rdzeniu Arduino -- \texttt{Serial.println()}.
     label={lst:debug},
 ]{lora-psn/include/debug.h}
 
-\FloatBarrier \subsection{Oprogramowanie modułu MASTER\label{sect:firmware-master}} Po wykonaniu instrukcji, które
+\FloatBarrier
+\subsection{Oprogramowanie modułu MASTER\label{sect:firmware-master}} Po wykonaniu instrukcji, które
 opisane zostały w~poprzedniej sekcji, moduł MASTER przechodzi do pracy w~nieskończonej pętli -- \texttt{loop()}.
 Wszystko oparte jest na zegarze o~zdefiniowanym okresie -- wybrana została wartość 1~minuty (60000 milisekund).
 Implementacja oparta została o~zegar nieblokujący (ang. \textsl{non-blocking timer}) z~wykorzystaniem funkcji
@@ -156,7 +157,8 @@ w~definicjach preprocesora, w~celu uniknięcia tzw. magicznych liczb (ang. \text
 W momencie, gdy mija wymagany czas, program przechodzi do wykonania podprogramu odpowiadającego za wysyłanie zapytań
 oraz zbieranie odpowiedzi z~sieci. Na rys. \ref{img:master-flowchart} przedstawiony został diagram blokowy instrukcji
 wykonywanych przez moduł MASTER w~nieskończonej pętli oraz tego, co wykonywane jest w~podprogramie komunikacji.
-Natomiast pełna implementacja obu tych elementów przedstawiona została na listingu \ref{lst:main-loop}.
+Natomiast pełna implementacja obu tych elementów przedstawiona została na listingach \ref{lst:main-loop} oraz
+\ref{lst:master-fetch}.
 
 \begin{figure}[!htbp]
     \centering
@@ -167,9 +169,16 @@ Natomiast pełna implementacja obu tych elementów przedstawiona została na lis
 
 \lstinputlisting[
     language=C++,
-    linerange={100-108,110-114,133-173},
-    caption={Implementacja nieskończonej pętli oraz funkcji związanych z~podprogramem komunikacji w~sieci},
+    linerange={103-110,112-116},
+    caption={Implementacja nieskończonej pętli dla modułu MASTER},
     label={lst:main-loop},
+]{lora-psn/src/main.cpp}
+
+\lstinputlisting[
+    language=C++,
+    linerange={133-174},
+    caption={Funkcja podprogramu odpowiedzialnego za zbieranie danych w~sieci},
+    label={lst:master-fetch},
 ]{lora-psn/src/main.cpp}
 
 Pierwszym elementem podprogramu jest wysłanie nowego zapytania do sieci -- zaimplementowana została do tego funkcja
@@ -189,9 +198,7 @@ Następnie moduł MASTER oczekuje na odpowiedź od modułu SLAVE, który powinie
 otrzymana w~ciągu 500ms, następuje przejście do sprawdzenia czy pierwsze pole odpowiedzi -- identyfikator -- jest
 poprawne. Identyfikator zawiera informację o~ID odpowiadającego SLAVE-a oraz ID danej, której wartość jest przesyłana.
 W~przeciwnym razie, na port szeregowy przesyłana jest stosowna informacja, a~licznik zapytań z~błędem odpowiedzi jest
-zwiększany.
-
-Ostatecznie, jeżeli nie wystapił żadnen z~powyżej opisanych błędów, wykorzystując funkcję \texttt{lora::readResponse()},
+zwiększany. Ostatecznie, jeżeli nie wystapił żaden z~tych błędów, wykorzystując funkcję \texttt{lora::readResponse()},
 odczytana zostaje wartość przesłana w~odpowiedzi. Implementacja funkcji odczytującej przedstawiona została na listingu
 \ref{lst:lora-readresponse}.
 
@@ -205,6 +212,44 @@ odczytana zostaje wartość przesłana w~odpowiedzi. Implementacja funkcji odczy
 W funkcji sprawdzane są ID modułu, który odpowiedź wysłał oraz ID danej. Na podstawie tej wartości, aktualizowana jest
 odpowiednia indeks w~tablicy, która odpowiada polu struktury do przechowywania danych odbieranych z~sieci. Struktura ta
 przekazywana jest jako referencja do miejsca w~pamięci poprzez wskaźnik do jej adresu.
+
+Ostatnimi elementami każdej iteracji pętli jest przesłanie zebranych danych przez port szeregowy oraz transmisja danych
+do modułu pełniącego funkcję serwera sieciowego. Funkcja logowania danych przez port szeregowy została dodana, po to aby
+było możliwe debugowanie działania oprogramowania oraz naprawa ewentualnie występujących błędów. Do implementacji
+wykorzystana została wykorzystana funkcja szablonowa, która pozwoliła na wykorzytanie tego samego fragmentu kodu do
+przesyłania wartości z~tablic o~różnym typie zmiennej (\texttt{float} -- zmiennoprzecinkowa -- dla wartości pochodzących
+z sieci oraz \texttt{int} -- liczby całkowite -- dla wartości związanych ze statystykami zapytań). Na funkcje
+wykorzystywane do transmisji danych przez magistralę I2C do modułu serwera sieciowego składa się kod zaimplementowany
+korzystając z~tego samego schematu. Przesyłanie wartości z~pojedynczego pola struktury wykorzystuje także funkcję
+szablonową, która wywoływana jest kilkukrotnie wewnątrz \texttt{webserverTransmit} w~celu przesłania wszystkich
+wymaganych danych. Kod funkcji szablonowych przedstawiony został na listingu \ref{lst:main-templates}, natomiast
+implementacja pełnych funkcji do przesyłania danych na listingu \ref{lst:main-log-transmit}. Dodatkowo zaimplementowana
+została także funkcja pomocniczna do wyznacznia wartości procentowej zapytań, które zakończyły się błędem. Opiera się
+ona o~wykonanie dzielenia wartości z~licznika zapytań z~błędem (\texttt{failedRequests}) przez wartość licznika
+całkowitej ilości zapytań wysłanych do każdego z~modułów SLAVE (\texttt{totalRequests}). Kod tej funkcji przedstawiony
+został na listingu \ref{lst:main-failedpercent}.
+
+\lstinputlisting[
+    language=C++,
+    linerange={176-185,213-222},
+    caption={Zaimplementowane funkcje szablonowe \texttt{logValues()} oraz \texttt{transmitPacket()}},
+    label={lst:main-templates},
+]{lora-psn/src/main.cpp}
+
+\lstinputlisting[
+    language=C++,
+    linerange={187-211,223-240},
+    caption={Funkcje wykorzystywane do logowania wartości przez port szeregowy oraz transmisji danych do modułu serwera
+            przez magistralę I2C},
+    label={lst:main-log-transmit},
+]{lora-psn/src/main.cpp}
+
+\lstinputlisting[
+    language=C++,
+    linerange={242-249},
+    caption={Implementacja funkcji pomocnicznej do wyznacznia wartości procentowej zapytań z~błędem},
+    label={lst:main-failedpercent},
+]{lora-psn/src/main.cpp}
 
 \subsection{Oprogramowanie modułów SLAVE\label{sect:firmware-slave}}
 
