@@ -414,7 +414,7 @@
 % Ścieżki do grafik
 % -------------------------------------------------------------------
 \RequirePackage{graphicx}
-\graphicspath{{gfx/}{image/}{src/}}
+\graphicspath{{gfx/}{images/}{src/}}
 
 % -------------------------------------------------------------------
 % Listingi programów
