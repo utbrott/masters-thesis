@@ -1,0 +1,6 @@
+[submodule "lora-psn"]
+	path = src/lora-psn
+	url = https://github.com/utbrott/lora-psn.git
+[submodule "feather-ws"]
+	path = src/feather-ws
+	url = https://github.com/utbrott/feather-ws.git
