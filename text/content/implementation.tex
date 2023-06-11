@@ -16,7 +16,7 @@ implementację kodu oraz pozwoliły na minimalizację powtarzalności pewnych el
 
 Z~uwagi na zastosowanie podejścia modułowego, całość oprogramowania składa się z~wielu mniejszych elementów,
 podzielonych na odpowiadające im pliki. Aby mieć pewność, że implementowane funkcje nie będą posiadały żadnych kolizji
-w~swoich nazwach zastosowane zostały przestrzenie nazw (ang. \textsl{namespaces}). Dodatkowo, ponieważ kod źródłowy
+w~swoich nazwach, zastosowane zostały przestrzenie nazw (ang. \textsl{namespaces}). Co więcej, ponieważ kod źródłowy
 jest dostępny w~domenie publicznej (repozytorium na platformie GitHub z~licencją \textsl{MIT} \cite{snyk-sw-license}),
 podjęta została decyzja o~dodaniu opisów działania do wszystkich elementów. Wykorzystany został do tego \textsl{Doxygen}
 -- narzędzie do generowania dokumentacji (np. formie strony internetowej lub dokumentu w~\LaTeX) na podstawie
@@ -129,13 +129,13 @@ funkcję w~sieci:
 Ostatnim krokiem w~obu przypadkach jest przejście do nieskończonej pętli i~wykonywanie instrukcji w~niej zawartych,
 wykorzystując do tego określony okres zegara.
 
-Dodatkowo, oprogramowanie posiada zestaw definicji oraz funkcji wykorzystywanych do debugowania, które ułatwiały
+Ponadto, oprogramowanie posiada zestaw definicji oraz funkcji wykorzystywanych do debugowania, które ułatwiały
 implementację oprogramowania -- \texttt{globals.h} oraz \texttt{debug.h}. Najważniejszymi elementami pliku globalnych
 definicji są funkcje preprocesora -- zwracających tylko ID modułu lub ID danej na podstawie kodu zapytania oraz
 struktury szablonowe (ang. \textsl{template structures}), które zawierają informację o~tym jaki kształt powinny mieć
 dane zbierane z~sensorów oraz przekazywane przez sieć. Definicję przedstawiono na listingu \ref{lst:globals}, natomiast
-dla funkcji wysłającej sformatowane wiadomości przez port szeregowy na listingu \ref{lst:debug}. Implementacja oparta
-została o~funkcję z~rdzeniu Arduino -- \texttt{Serial.println()}.
+dla funkcji wysyłającej sformatowane wiadomości przez port szeregowy na listingu \ref{lst:debug}. Implementacja oparta
+została o~funkcję z~rdzenia Arduino -- \texttt{Serial.println()}.
 
 \lstinputlisting[
     language=C++,
@@ -164,7 +164,7 @@ w~definicjach preprocesora, w~celu uniknięcia tzw. magicznych liczb (ang. \text
 W~momencie, gdy mija wymagany czas, program przechodzi do wykonania podprogramu odpowiadającego za wysyłanie zapytań
 oraz zbieranie odpowiedzi z~sieci. Na rys. \ref{img:master-flowchart} przedstawiony został diagram blokowy instrukcji
 wykonywanych przez moduł MASTER w~nieskończonej pętli oraz tego, co wykonywane jest w~podprogramie komunikacji.
-Natomiast pełna implementacja obu tych elementów przedstawiona została na listingach \ref{lst:main-loop} oraz
+Natomiast pełna implementacja obu tych elementów przedstawiona została na listingach \ref{lst:master-main-loop} oraz
 \ref{lst:master-fetch}.
 
 \begin{figure}[!htbp]
@@ -178,9 +178,10 @@ Natomiast pełna implementacja obu tych elementów przedstawiona została na lis
     language=C++,
     linerange={103-110,112-116},
     caption={Implementacja nieskończonej pętli dla modułu MASTER},
-    label={lst:main-loop},
+    label={lst:master-main-loop},
     float=htbp,
 ]{lora-psn/src/main.cpp}
+
 \lstinputlisting[
     language=C++,
     linerange={133-174},
@@ -193,7 +194,7 @@ Pierwszym elementem podprogramu jest wysłanie nowego zapytania do sieci -- zaim
 \texttt{sendRequest()} zawarta w~przestrzeni nazw \texttt{lora}. Jej implementacja przedstawiona została na listingu
 \ref{lst:lora-sendrequest}. Pobierany jest kod, który ma zostać wysłany do sieci, następnie, wykorzystując funkcję
 \texttt{debug::println()} logowana jest przesyłana wartość. Korzystając z~funkcji, która dostępna jest w~bibliotece do
-obsługi modułu rozszerzeń LoRa, wysyłana jest wiadmość do sieci.
+obsługi modułu rozszerzeń LoRa, wysyłana jest wiadomość do sieci.
 
 \lstinputlisting[
     language=C++,
@@ -204,10 +205,10 @@ obsługi modułu rozszerzeń LoRa, wysyłana jest wiadmość do sieci.
 ]{lora-psn/src/lora.cpp}
 
 Następnie moduł MASTER oczekuje na odpowiedź od modułu SLAVE, który powinien wysłać odpowiedź. Jeżeli odpowiedź zostana
-otrzymana w~ciągu 500ms, następuje przejście do sprawdzenia czy pierwsze pole odpowiedzi -- identyfikator -- jest
+otrzymana w~ciągu 500ms, następuje przejście do sprawdzenia, czy pierwsze pole odpowiedzi -- identyfikator -- jest
 poprawne. Identyfikator zawiera informację o~ID odpowiadającego SLAVE-a oraz ID danej, której wartość jest przesyłana.
 W~przeciwnym razie, na port szeregowy przesyłana jest stosowna informacja, a~licznik zapytań z~błędem odpowiedzi jest
-zwiększany. Ostatecznie, jeżeli nie wystapił żaden z~tych błędów, wykorzystując funkcję \texttt{lora::readResponse()},
+zwiększany. Ostatecznie, jeżeli nie wystąpił żaden z~błędów, wykorzystując funkcję \texttt{lora::readResponse()},
 odczytana zostaje wartość przesłana w~odpowiedzi. Implementacja funkcji odczytującej przedstawiona została na listingu
 \ref{lst:lora-readresponse}.
 
@@ -224,17 +225,17 @@ odpowiednia indeks w~tablicy, która odpowiada polu struktury do przechowywania 
 przekazywana jest jako referencja do miejsca w~pamięci poprzez wskaźnik do jej adresu.
 
 Ostatnimi elementami każdej iteracji pętli jest przesłanie zebranych danych przez port szeregowy oraz transmisja danych
-do modułu pełniącego funkcję serwera sieciowego. Funkcja logowania danych przez port szeregowy została dodana, po to aby
-było możliwe debugowanie działania oprogramowania oraz naprawa ewentualnie występujących błędów. Do implementacji
-wykorzystana została wykorzystana funkcja szablonowa, która pozwoliła na wykorzytanie tego samego fragmentu kodu do
+do modułu pełniącego funkcję serwera sieciowego. Funkcja logowania danych przez port szeregowy została dodana, po to,
+aby było możliwe debugowanie działania oprogramowania oraz naprawa ewentualnie występujących błędów. Do implementacji
+wykorzystana została wykorzystana funkcja szablonowa, która pozwoliła na wykorzystanie tego samego fragmentu kodu do
 przesyłania wartości z~tablic o~różnym typie zmiennej (\texttt{float} -- zmiennoprzecinkowa -- dla wartości pochodzących
 z~sieci oraz \texttt{int} -- liczby całkowite -- dla wartości związanych ze statystykami zapytań). Na funkcje
-wykorzystywane do transmisji danych przez magistralę I2C do modułu serwera sieciowego składa się kod zaimplementowany
+wykorzystywane do transmisji danych przez magistralę I2C do modułu serwera sieciowego składa się kod zaimplementowany,
 korzystając z~tego samego schematu. Przesyłanie wartości z~pojedynczego pola struktury wykorzystuje także funkcję
 szablonową, która wywoływana jest kilkukrotnie wewnątrz \texttt{webserverTransmit} w~celu przesłania wszystkich
 wymaganych danych. Kod funkcji szablonowych przedstawiony został na listingach \ref{lst:template-log} oraz
 \ref{lst:template-transmit}, natomiast implementacja pełnych funkcji do przesyłania danych na listingach
-\ref{lst:main-logging} oraz \ref{lst:main-transmitting}. Dodatkowo zaimplementowana została także funkcja pomocniczna do
+\ref{lst:main-logging} oraz \ref{lst:main-transmitting}. Dodatkowo zaimplementowana została także funkcja pomocnicza do
 wyznacznia wartości procentowej zapytań, które zakończyły się błędem. Opiera się ona o~wykonanie dzielenia wartości
 z~licznika zapytań z~błędem (\texttt{failedRequests}) przez wartość licznika całkowitej ilości zapytań wysłanych do
 każdego z~modułów SLAVE (\texttt{totalRequests}). Kod tej funkcji przedstawiony został na listingu
@@ -283,7 +284,140 @@ każdego z~modułów SLAVE (\texttt{totalRequests}). Kod tej funkcji przedstawio
 \FloatBarrier
 \subsection{Oprogramowanie modułów SLAVE\label{sect:firmware-slave}} W~przypadku modułów SLAVE działanie kodu
 w~nieskończonej pętli zostało zaimplementowane inaczej. Poza wykonywaniem zadań bazując na zegarze, w~tym przypadku
-z~okresem 5~sekund,
+z~okresem 5~sekund, zaimplementowane zostały także przerwania. Wykorzystywane są one do obsługi przychodzących nowych
+zapytań od modułu MASTER. Tak jak zostało to opisane w~sekcji \ref{sect:framework-limits}, we frameworku Arduino nie ma
+możliwości wykorzystania przerwań programowych, dlatego też zostało zastosowane obejście bazujące na przerwaniu
+sprzętowym. Na rys. \ref{img:slave-flowchart} przedstawiony został diagram nieskończonej pętli zaimplementowanej dla
+modułów SLAVE.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{lora-psn/images/SLAVE-loop-flowchart}
+    \caption{\label{img:slave-flowchart}Diagram blokowy pętli \texttt{loop()} zaimplementowanej dla modułów SLAVE}
+\end{figure}
+
+
+Zadania wykonywane przez moduły, wykorzystując do tego zegar (zaimplementowany w~sposób identyczny do modułu MASTER --
+na bazie funkcji \texttt{millis()}), to głównie zbieranie danych z~sensorów płytki BME280 oraz akutualizacja bufora
+z~danymi. Implementacja tego fragmentu kodu została przedstawiona na listingu \ref{lst:slave-main-loop}.
+
+\lstinputlisting[
+    language=c++,
+    linerange={87-101,112-116},
+    caption={Implementacja nieskończonej pętli dla modułów SLAVE},
+    label={lst:slave-main-loop},
+    float=htbp
+]{lora-psn/src/main.cpp}
+
+Odczytywanie danych z~sensora odbywa się wykorzystując funkcję \texttt{sensor::readRaw()}, która przedstawiona jest na
+listingu \ref{lst:sensor-readraw}. Jedynym jej zadaniem jest odczytanie wszystkich potrzebnych danych oraz dodanie tych
+wartości do tablicy dla średniej kroczącej.
+
+\lstinputlisting[
+    language=c++,
+    linerange={34-39},
+    caption={Implementacja funkcji \texttt{sensor::readRaw()} do odczytywania wartości z~sensora BME280},
+    label={lst:sensor-readraw},
+    float=htbp
+]{lora-psn/src/bme280.cpp}
+
+Obliczanie średniej kroczącej rozwiązane zostało poprzez zainicjowanie zaimplementowanej do tego klasy --
+\texttt{RollingAvg}. Jej definicja przedstawiona została na listingu \ref{lst:rollingavg-class}. W~celu uzyskania
+optymalnego działania kodu -- średnia krocząca jest zadaniem dość intensywnym obliczeniowo -- zastosowane zostało
+przydzielanie pamięci (ang. \textsl{memory allocation}) poprzez \texttt{malloc()} oraz wypełnianie tablicy samymi zerami
+przy początkowej deklaracji obiektu, dzięki czemu dodawanie wartości jest znacznie szybsze, ponieważ algorytm nie musi
+każdorazowo powiększać rozmiaru tablicy. Podczas dodawania wartości do średniej wykonywane jest kilka kroków:
+sprawdzenie, czy tablica na pewno istnieje, odjęcie od sumy wartości z~obecnego indeksu oraz zastępowanie jej nową,
+zwiększanie indeksu lub zerowanie go, jeżeli wskaźnik dotarł do maksymalnej wartości. Działanie algorytmu przedstawione
+zostało na rys. \ref{img:rolling-average}, natomiast na listingu \ref{lst:rollingavg-add} jego implementacja.
+
+\lstinputlisting[
+    language=c++,
+    linerange={6-22},
+    caption={Definicja klasy \texttt{RollingAvg}},
+    label={lst:rollingavg-class},
+    float=htbp
+]{lora-psn/include/rollingavg.h}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{schematics/rolling-average}
+    \caption{\label{img:rolling-average}Schemat działania algorytmu dodawania nowej wartości do średniej kroczącej dla
+        przykładowej tablicy 10 elementów, indeksu 2~oraz nowej wartości 38}
+\end{figure}
+
+\lstinputlisting[
+    language=c++,
+    linerange={36-51},
+    caption={Implementacja algorytmu dodającego nową wartość do średniej kroczącej},
+    label={lst:rollingavg-add},
+    float=htbp
+]{lora-psn/src/rollingavg.cpp}
+
+Bufor na dane został dodany w~celu przyspieszenia działania oprogramowania. Dzięki zastosowaniu takiego rozwiązania,
+w~momencie pojawienia się nowego zapytania w~sieci, SLAVE, do którego jest ono skierowane, może prawie natychmiast
+wysłać odpowiedź. Aktualizacja bufora z~zebranymi danymi (wartością średniej kroczącej) odbywa się poprzez zmianę ich
+wartości pól, wykorzystując do tego wskaźniki do obecnych wartości oraz zaimplementowaną funkcję \texttt{getAverage()}
+z~klasy \texttt{RollingAvg}. Podczas pobierania wartości średniej pierwszym krokiem jest sprawdzenie, czy tablica
+wartości nie jest pusta, następnie zwracana jest wartość -- dzielenie aktualnej sumy przez ilość elementów w~tablicy.
+Implementacja tych funkcji przedstawiona została na listingach \ref{lst:sensor-updatebuffer} oraz
+\ref{lst:rollingavg-getaverage}.
+
+\lstinputlisting[
+    language=c++,
+    linerange={41-47},
+    caption={Implementacja funkcji aktualizującej zawartość bufora na dane},
+    label={lst:sensor-updatebuffer},
+    float=htbp
+]{lora-psn/src/bme280.cpp}
+
+\lstinputlisting[
+    language=c++,
+    linerange={57-63},
+    caption={Implementacja funkcji do wyznaczania średniej na podstawie obecnej zawartości tablicy średniej kroczącej},
+    label={lst:rollingavg-getaverage},
+    float=htbp
+]{lora-psn/src/rollingavg.cpp}
+
+\FloatBarrier
+Obejściem limitów stawianych przez framework Arduino było dodanie przerwania sprzętowego. Pin wbudowanej
+diody mikrokontrolerów (\texttt{LED\_BUILTIN}, pin PA5) połączony został z~dowolnym pinem, który nie pełnił żadnej innej
+funkcji (tutaj wybrany został pin PB3, zdefiniowany w~kodzie jako \texttt{SLAVE\_INTERRUPT\_PIN}). W~momencie, gdy moduł
+rozszerzeń LoRa wykryje nadawaną w~sieci dowolną wiadomość, włączona zostaje dioda, co powoduje wejście w~przerwanie.
+
+Aktywacja przerwania powoduje wywołanie funkcji \texttt{newRequestHandler()}, w~której pierwszym elementem jest
+sprawdzenie, czy zaobserwowane w~sieci zapytanie dotyczy danego modułu. Zrealizowane zostało to za pomocą maski, która
+pozwala na wydobycie tylko ID modułu z~całego kodu zapytania. Jeżeli kod jest zgodny, to moduł wysyła odpowiedź,
+wykorzystując do tego funkcję \texttt{lora::sendResponse()}, a~następnie wyłączana jest dioda. W~przeciwnym przypadku
+wyłączona zostanie tylko dioda, a~moduł wyjdzie z~przerwania i~powróci do wykonywania instrukcji z~nieskończonej pętli.
+Implementacja funkcji obsługi przerwania przedstawiona została na listingu \ref{lst:main-newrequesthandler}, natomiast
+na listingu \ref{lst:lora-sendreponse} przedstawiona została funkcja zajmująca się wysyłaniem odpowiedzi.
+
+\lstinputlisting[
+    language=c++,
+    linerange={121-131},
+    caption={Implementacja funkcji obsługującej przerwania w~modułach SLAVE},
+    label={lst:main-newrequesthandler},
+    float=htbp
+]{lora-psn/src/main.cpp}
+
+\lstinputlisting[
+    language=c++,
+    linerange={46-76},
+    caption={Implementacja funkcji do wysyłania odpowiedzi przez moduły SLAVE},
+    label={lst:lora-sendreponse},
+    float=htbp
+]{lora-psn/src/lora.cpp}
+
+\FloatBarrier
+Funkcja \texttt{lora::sendResponse()} także bazuje na wykorzystaniu maski, tym razem do sprawdzenia ID danej jakiej
+wartość powinna znajdować się w~odpowiedzi. Każdorazowo wysyłane zostają 3~bajty: echo kodu zapytania -- w~celu
+identyfikacji przez moduł MASTER skąd nadeszła odpowiedź oraz 2~bajty zawierających przesyłaną wartość. Dane zbierane
+przez sensor są typu float (wartości zmiennoprzecinkowe, 32-bitowe), a~biblioteka może obsługiwać tylko tablice, gdzie
+każde pole należy do typu liczb całkowitych o~stałej szerokości 8~bitów (\texttt{uint8\_t}, reprezentuje wartości tylko
+dodatnie o~wartości nie większej niż 255 \cite{cpp-fwinteger}). Aby móc swobodnie przesyłać wartości zastosowany został
+rzut (ang. \textsl{type casting}) do oryginalnej wielkości do typu \texttt{uint16\_t} oraz podział jej na dwie części,
+wykorzystując do tego maski oraz operacje bitowe. Tak przygotowana tablica wysłana jest jako odpowiedź do modułu MASTER.
 
 \FloatBarrier
 \section{Implementacja oprogramowania modułu serwera sieciowego\label{sect:firmware-webserver}}
