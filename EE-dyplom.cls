@@ -426,7 +426,7 @@
     keywordstyle=\bfseries\color{EEUltramarine},
     numberstyle=\tiny\color{EEBlue},
     stringstyle=\color{EETangerine},
-    basicstyle=\ttfamily\footnotesize,
+    basicstyle=\ttfamily\small,
     breakatwhitespace=false,
     breaklines=true,
     captionpos=b,

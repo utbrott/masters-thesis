@@ -18,17 +18,17 @@ gdzie argumentem jest docelowy mikrokontroler:
    pio project init --board <board>
 \end{verbatim}
 
-W przypadku projektu dla sieci LoRa wykorzystane zostały płytki Nucleo L152RE, stąd argumentem było
+W~przypadku projektu dla sieci LoRa wykorzystane zostały płytki Nucleo L152RE, stąd argumentem było
 \texttt{nucleo\_l152}, natomiast dla projektu serwera sieci lokalnej -- \texttt{adafruit\_feather\_m0}. Użycie komendy
 rozpoczyna proces tworzenia nowego projektu. Na podstawie podanego argumentu tworzony jest plik konfiguracyjny.
 Zdefiniowane zostają platforma projektu oraz wykorzystywany framework. W~przypadku obu projektów wybrany został ten
 wykorzystywany przez Arduino z~uwagi na dużą dostępność bibliotek, które działają bez potrzeby modyfikowania ich kodu
 źródłowego. Dodatkowo zdefiniowana została tutaj prędkość transmisji portu szeregowego.
 
-W projekcie dla modułów sieci wykonana została modyfikacja pliku konfiguracyjnego -- elementy wygenerowane przez
+W~projekcie dla modułów sieci wykonana została modyfikacja pliku konfiguracyjnego -- elementy wygenerowane przez
 narzędzie CLI PlatformIO przeniesione zostały do osobnej sekcji \texttt{[base\_config]}, natomiast konfiguracje dla
 poszczególnych modułów znajdują się w~dedykowanych \enquote{środowiskach}. Wprowadzone zmiany zostały dokładniej opisane
-w sekcjach o~implementacji oprogramowania na poszczególne moduły (\ref{sect:firmware-network},
+w~sekcjach o~implementacji oprogramowania na poszczególne moduły (\ref{sect:firmware-network},
 \ref{sect:firmware-webserver}).
 
 Poza plikiem konfiguracyjnym, narzędzie generuje też podstawową strukturę plików całego. Powstaje folder \texttt{src},
@@ -57,7 +57,7 @@ Argumentami dodatkowymi mogą być:
           Szczególnie użyteczne w~przypadku, gdy pracuje się na wielu urządzeniach jednocześnie,
     \item \texttt{--monitor-port}: port, na którym po zakończeniu procesu ma zostać otwarty monitor portu szeregowego.
 \end{itemize}
-W przypadku opcji związanych z~portem, jeżeli nie zostaną sprecyzowane (podane jako argument do komendy), PlatformIO
+W~przypadku opcji związanych z~portem, jeżeli nie zostaną sprecyzowane (podane jako argument do komendy), PlatformIO
 będzie próbował wykryć je automatycznie. Dostępne jest jeszcze kilka innych opcji, jednkże są one znacznie rzadziej
 wykorzystywane, ponieważ ich domyślne opcje są tymi, które są najczęściej ustawiane.
 

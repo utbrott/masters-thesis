@@ -14,7 +14,7 @@ Ponadto, wykorzystane zostały elementy języka \texttt{C++}, które dostępne s
 (ang. \textsl{template functions}) lub pętle typu \texttt{for-range}. Są to elementy, które znacznie ułatwiły
 implementację kodu oraz pozwoliły na minimalizację powtarzalności pewnych elementów.
 
-Z uwagi na zastosowanie podejścia modułowego, całość oprogramowania składa się z~wielu mniejszych elementów,
+Z~uwagi na zastosowanie podejścia modułowego, całość oprogramowania składa się z~wielu mniejszych elementów,
 podzielonych na odpowiadające im pliki. Aby mieć pewność, że implementowane funkcje nie będą posiadały żadnych kolizji
 w~swoich nazwach zastosowane zostały przestrzenie nazw (ang. \textsl{namespaces}). Dodatkowo, ponieważ kod źródłowy
 jest dostępny w~domenie publicznej (repozytorium na platformie GitHub z~licencją \textsl{MIT} \cite{snyk-sw-license}),
@@ -22,6 +22,7 @@ podjęta została decyzja o~dodaniu opisów działania do wszystkich elementów.
 -- narzędzie do generowania dokumentacji (np. formie strony internetowej lub dokumentu w~\LaTeX) na podstawie
 specjalnych znaczników w~komentarzach \cite{doxygen}.
 
+\FloatBarrier
 \section{Framework oraz biblioteki\label{sect:framework-libraries}} Bazą do oprogramowania na wszystkich modułach jest
 framework Arduino oraz jego modyfikacja pod platformę STM32 -- stm32duino, która pozwala na wykorzystanie pełnej
 funkcjonalności rdzenia Arduino \cite{stm32duino-docs}. Pomimo tego, że biblioteki HAL (ang. \textsl{Hardware
@@ -29,11 +30,12 @@ funkcjonalności rdzenia Arduino \cite{stm32duino-docs}. Pomimo tego, że biblio
 zastosować. Oryginalna biblioteka do obsługi modułów rozszerzeń LoRa została wycofana z~użytku na rzecz nowszej
 implementacji, pod nowszą wersję płytek Nucleo z~wbudowanym hardware.
 
+\FloatBarrier
 \subsection{Wykorzystane biblioteki\label{sect:used-libs}} Do implementacji oprogramowania na wszystkie moduły
 wykorzystanych zostało kilka bibliotek, które pozwalały na dodanie pełnego zakresu funkcjonalności do każdego
 z~projektów.
 
-W przypadku bibliotek zewnętrznych (niebędących częścią rdzenia Arduino) były to:
+W~przypadku bibliotek zewnętrznych (niebędących częścią rdzenia Arduino) były to:
 \begin{itemize}[label=--]
     \item STM32duino I-NUCLEO-LRWAN1: biblioteka do uruchomienia oraz pracy z~modułem rozszerzeń LoRa. Pozwala ona na
           pracę w~dwóch trybach: LoRaRadio -- implementacja wykorzystująca tylko standard dolnej warstwy sprzętowej LoRa
@@ -50,6 +52,7 @@ Ponadto, wykorzystane zostały biblioteki I2C oraz SPI, dostępne w~rdzeniu Ardu
 komunikacji pomiędzy mikrokontrolerem Adafruit Feather M0 a~modułem WiFi, sensorami BM280 podłączonymi do modułów SLAVE
 oraz do stworzenia połączenia pomiędzy modułem MASTER a~płytką z~serwerem sieci lokalnej.
 
+\FloatBarrier
 \subsection{Ograniczenia związane z~wykorzystaniem Arduino oraz STM32duino\label{sect:framework-limits}} STM32duino,
 pomimo tego, że ułatwił, bądź w~ogóle pozwolił na pracowanie z~wykorzystywanymi modułami, nie jest platformą idealną,
 pozbawioną ograniczeń. Jedynym z~nich, które w~dość znacznym stopniu utrudniło implementację oprogramowania dla modułów
@@ -59,6 +62,7 @@ występowały też problemy związane z~działaniem magistrali I2C, tutaj w~przy
 Arduino -- niemożliwe było wykorzystanie wyświetlacza OLED pracującego na magistrali I2C oraz zarejestrowania samego
 mikrokontrolera jako części, z~którą można komunikować się po tej magistrali.
 
+\FloatBarrier
 \section{Implementacja oprogramowania elementów sieci\label{sect:firmware-network}} Zaprojektowana sieć składała się
 w~sumie z~pięciu modułów -- 4~z~nich stanowiły elementy sieci LoRa, natomiast ostatni był wykorzystywany jako serwer
 w~sieci lokalnej. W~projekcie nie została wykorzystana pełna funkcjonalność LoRaWAN oraz typowa dla niej architektura
@@ -85,7 +89,8 @@ przedstawiony został na listingu \ref{lst:lora-ini}.
 \lstinputlisting[
     linerange={26-30},
     caption={Fragment pliku konfiguracyjnego (tutaj dla SLAVE1) odpowiedzialny za definicję typu oraz ID modułu},
-    label={lst:lora-ini}
+    label={lst:lora-ini},
+    float=htbp,
 ]{lora-psn/platformio.ini}
 
 Wykorzystanie frameworku Arduino wymagało zastosowania pewnych schematów podczas implementacji. Dlatego też całość kodu
@@ -93,7 +98,7 @@ podzielona jest na dwie sekcje \texttt{setup()} oraz \texttt{loop()}, wykonywane
 oraz w~nieskończonej pętli, dopóki płytka ma zasilanie. Na rys. \ref{img:firmware-flowchart} przedstawiony został
 schemat blokowy zaimplementowanego oprogramowania -- części zawartej w~sekcji \texttt{setup()}.
 
-\begin{figure}[!htbp]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.9\textwidth]{lora-psn/images/firmware-flowchart}
     \caption{\label{img:firmware-flowchart}Schemat blokowy części \texttt{setup()} oprogramowania modułów sieci LoRa,
@@ -137,6 +142,7 @@ została o~funkcję z~rdzeniu Arduino -- \texttt{Serial.println()}.
     linerange={6-8,15-39},
     caption={Definicje funkcji dla preprocesora oraz struktury szablonowe (z polami o~jednej wartości oraz z~tablicami)},
     label={lst:globals},
+    float=htbp,
 ]{lora-psn/include/globals.h}
 
 \lstinputlisting[
@@ -144,6 +150,7 @@ została o~funkcję z~rdzeniu Arduino -- \texttt{Serial.println()}.
     linerange={20-26},
     caption={Funkcji wykorzystywana do wysyłania sformatowanych wiadomości przez port szeregowy},
     label={lst:debug},
+    float=htbp,
 ]{lora-psn/include/debug.h}
 
 \FloatBarrier
@@ -154,7 +161,7 @@ Implementacja oparta została o~zegar nieblokujący (ang. \textsl{non-blocking t
 \texttt{millis()} -- funkcji zwracającej ilość milisekund od momentu startu programu. Okres został zdefiniowany
 w~definicjach preprocesora, w~celu uniknięcia tzw. magicznych liczb (ang. \textsl{magic numbers}).
 
-W momencie, gdy mija wymagany czas, program przechodzi do wykonania podprogramu odpowiadającego za wysyłanie zapytań
+W~momencie, gdy mija wymagany czas, program przechodzi do wykonania podprogramu odpowiadającego za wysyłanie zapytań
 oraz zbieranie odpowiedzi z~sieci. Na rys. \ref{img:master-flowchart} przedstawiony został diagram blokowy instrukcji
 wykonywanych przez moduł MASTER w~nieskończonej pętli oraz tego, co wykonywane jest w~podprogramie komunikacji.
 Natomiast pełna implementacja obu tych elementów przedstawiona została na listingach \ref{lst:main-loop} oraz
@@ -162,7 +169,7 @@ Natomiast pełna implementacja obu tych elementów przedstawiona została na lis
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{lora-psn/images/MASTER-loop-flowchart}
+    \includegraphics[width=\textwidth]{lora-psn/images/MASTER-loop-flowchart}
     \caption{\label{img:master-flowchart}Schemat blokowy nieskończonej pętli oraz podprogramu zbierania danych
         zaimplementowanych dla modułu MASTER}
 \end{figure}
@@ -172,13 +179,14 @@ Natomiast pełna implementacja obu tych elementów przedstawiona została na lis
     linerange={103-110,112-116},
     caption={Implementacja nieskończonej pętli dla modułu MASTER},
     label={lst:main-loop},
+    float=htbp,
 ]{lora-psn/src/main.cpp}
-
 \lstinputlisting[
     language=C++,
     linerange={133-174},
     caption={Funkcja podprogramu odpowiedzialnego za zbieranie danych w~sieci},
     label={lst:master-fetch},
+    float=htbp,
 ]{lora-psn/src/main.cpp}
 
 Pierwszym elementem podprogramu jest wysłanie nowego zapytania do sieci -- zaimplementowana została do tego funkcja
@@ -192,6 +200,7 @@ obsługi modułu rozszerzeń LoRa, wysyłana jest wiadmość do sieci.
     linerange={37-43},
     caption={Implementacja funkcji \texttt{lora::sendRequest()}},
     label={lst:lora-sendrequest},
+    float=htbp,
 ]{lora-psn/src/lora.cpp}
 
 Następnie moduł MASTER oczekuje na odpowiedź od modułu SLAVE, który powinien wysłać odpowiedź. Jeżeli odpowiedź zostana
@@ -207,9 +216,10 @@ odczytana zostaje wartość przesłana w~odpowiedzi. Implementacja funkcji odczy
     linerange={79-97},
     caption={Implementacja funkcji odczytującej wartość odpowiedzi modułu SLAVE},
     label={lst:lora-readresponse},
+    float=htbp,
 ]{lora-psn/src/lora.cpp}
 
-W funkcji sprawdzane są ID modułu, który odpowiedź wysłał oraz ID danej. Na podstawie tej wartości, aktualizowana jest
+W~funkcji sprawdzane są ID modułu, który odpowiedź wysłał oraz ID danej. Na podstawie tej wartości, aktualizowana jest
 odpowiednia indeks w~tablicy, która odpowiada polu struktury do przechowywania danych odbieranych z~sieci. Struktura ta
 przekazywana jest jako referencja do miejsca w~pamięci poprzez wskaźnik do jej adresu.
 
@@ -218,39 +228,62 @@ do modułu pełniącego funkcję serwera sieciowego. Funkcja logowania danych pr
 było możliwe debugowanie działania oprogramowania oraz naprawa ewentualnie występujących błędów. Do implementacji
 wykorzystana została wykorzystana funkcja szablonowa, która pozwoliła na wykorzytanie tego samego fragmentu kodu do
 przesyłania wartości z~tablic o~różnym typie zmiennej (\texttt{float} -- zmiennoprzecinkowa -- dla wartości pochodzących
-z sieci oraz \texttt{int} -- liczby całkowite -- dla wartości związanych ze statystykami zapytań). Na funkcje
+z~sieci oraz \texttt{int} -- liczby całkowite -- dla wartości związanych ze statystykami zapytań). Na funkcje
 wykorzystywane do transmisji danych przez magistralę I2C do modułu serwera sieciowego składa się kod zaimplementowany
 korzystając z~tego samego schematu. Przesyłanie wartości z~pojedynczego pola struktury wykorzystuje także funkcję
 szablonową, która wywoływana jest kilkukrotnie wewnątrz \texttt{webserverTransmit} w~celu przesłania wszystkich
-wymaganych danych. Kod funkcji szablonowych przedstawiony został na listingu \ref{lst:main-templates}, natomiast
-implementacja pełnych funkcji do przesyłania danych na listingu \ref{lst:main-log-transmit}. Dodatkowo zaimplementowana
-została także funkcja pomocniczna do wyznacznia wartości procentowej zapytań, które zakończyły się błędem. Opiera się
-ona o~wykonanie dzielenia wartości z~licznika zapytań z~błędem (\texttt{failedRequests}) przez wartość licznika
-całkowitej ilości zapytań wysłanych do każdego z~modułów SLAVE (\texttt{totalRequests}). Kod tej funkcji przedstawiony
-został na listingu \ref{lst:main-failedpercent}.
+wymaganych danych. Kod funkcji szablonowych przedstawiony został na listingach \ref{lst:template-log} oraz
+\ref{lst:template-transmit}, natomiast implementacja pełnych funkcji do przesyłania danych na listingach
+\ref{lst:main-logging} oraz \ref{lst:main-transmitting}. Dodatkowo zaimplementowana została także funkcja pomocniczna do
+wyznacznia wartości procentowej zapytań, które zakończyły się błędem. Opiera się ona o~wykonanie dzielenia wartości
+z~licznika zapytań z~błędem (\texttt{failedRequests}) przez wartość licznika całkowitej ilości zapytań wysłanych do
+każdego z~modułów SLAVE (\texttt{totalRequests}). Kod tej funkcji przedstawiony został na listingu
+\ref{lst:main-failedpercent}.
 
 \lstinputlisting[
     language=C++,
-    linerange={176-185,213-222},
-    caption={Zaimplementowane funkcje szablonowe \texttt{logValues()} oraz \texttt{transmitPacket()}},
-    label={lst:main-templates},
+    linerange={176-185},
+    caption={Implementacja funkcji szablonowej \texttt{logValues()}},
+    label={lst:template-log},
+    float=htbp,
 ]{lora-psn/src/main.cpp}
 
 \lstinputlisting[
     language=C++,
-    linerange={187-211,223-240},
-    caption={Funkcje wykorzystywane do logowania wartości przez port szeregowy oraz transmisji danych do modułu serwera
-            przez magistralę I2C},
-    label={lst:main-log-transmit},
+    linerange={213-222},
+    caption={Implementacja funkcji szablonowej \texttt{transmitPacket()}},
+    label={lst:template-transmit},
+    float=htbp,
+]{lora-psn/src/main.cpp}
+
+\lstinputlisting[
+    language=C++,
+    linerange={187-211},
+    caption={Funkcja wykorzystywana do logowania wartości przez port szeregowy},
+    label={lst:main-logging},
+    float=htbp,
+]{lora-psn/src/main.cpp}
+
+\lstinputlisting[
+    language=C++,
+    linerange={224-240},
+    caption={Funkcja do transmisji danych do modułu serwera przez magistralę I2C},
+    label={lst:main-transmitting},
+    float=htbp,
 ]{lora-psn/src/main.cpp}
 
 \lstinputlisting[
     language=C++,
     linerange={242-249},
-    caption={Implementacja funkcji pomocnicznej do wyznacznia wartości procentowej zapytań z~błędem},
+    caption={Implementacja funkcji pomocnicznej do wyznaczania wartości procentowej zapytań z~błędem},
     label={lst:main-failedpercent},
+    float=htbp,
 ]{lora-psn/src/main.cpp}
 
-\subsection{Oprogramowanie modułów SLAVE\label{sect:firmware-slave}}
+\FloatBarrier
+\subsection{Oprogramowanie modułów SLAVE\label{sect:firmware-slave}} W~przypadku modułów SLAVE działanie kodu
+w~nieskończonej pętli zostało zaimplementowane inaczej. Poza wykonywaniem zadań bazując na zegarze, w~tym przypadku
+z~okresem 5~sekund,
 
+\FloatBarrier
 \section{Implementacja oprogramowania modułu serwera sieciowego\label{sect:firmware-webserver}}
