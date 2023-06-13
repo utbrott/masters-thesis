@@ -98,7 +98,7 @@ podzielona jest na dwie sekcje \texttt{setup()} oraz \texttt{loop()}, wykonywane
 oraz w~nieskończonej pętli, dopóki płytka ma zasilanie. Na rys. \ref{img:firmware-flowchart} przedstawiony został
 schemat blokowy zaimplementowanego oprogramowania -- części zawartej w~sekcji \texttt{setup()}.
 
-\begin{figure}[!htb]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{lora-psn/images/firmware-flowchart}
     \caption{\label{img:firmware-flowchart}Schemat blokowy części \texttt{setup()} oprogramowania modułów sieci LoRa,
@@ -341,7 +341,7 @@ zostało na rys. \ref{img:rolling-average}, natomiast na listingu \ref{lst:rolli
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{schematics/rolling-average}
+    \includegraphics[width=0.73\textwidth]{schematics/rolling-average}
     \caption{\label{img:rolling-average}Schemat działania algorytmu dodawania nowej wartości do średniej kroczącej dla
         przykładowej tablicy 10 elementów, indeksu 2~oraz nowej wartości 38}
 \end{figure}
@@ -420,4 +420,6 @@ rzut (ang. \textsl{type casting}) do oryginalnej wielkości do typu \texttt{uint
 wykorzystując do tego maski oraz operacje bitowe. Tak przygotowana tablica wysłana jest jako odpowiedź do modułu MASTER.
 
 \FloatBarrier
-\section{Implementacja oprogramowania modułu serwera sieciowego\label{sect:firmware-webserver}}
+\section{Implementacja oprogramowania modułu serwera sieciowego\label{sect:firmware-webserver}} Oprogramowanie modułu
+serwera sieciowego dzieli się na dwie części: implementację działania serwera sieciowego (ang. \textsl{webserver}) oraz
+odbierania i dekodowania informacji z modułu MASTER sieci LoRa.
