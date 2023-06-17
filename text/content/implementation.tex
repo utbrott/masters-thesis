@@ -422,4 +422,177 @@ wykorzystując do tego maski oraz operacje bitowe. Tak przygotowana tablica wys�
 \FloatBarrier
 \section{Implementacja oprogramowania modułu serwera sieciowego\label{sect:firmware-webserver}} Oprogramowanie modułu
 serwera sieciowego dzieli się na dwie części: implementację działania serwera sieciowego (ang. \textsl{webserver}) oraz
-odbierania i dekodowania informacji z modułu MASTER sieci LoRa.
+odbierania i~dekodowania informacji z~modułu MASTER sieci LoRa. Tak jak w~przypadku oprogramowania dla modułów sieci
+LoRa, w~przypadku modułu serwera sieciowego na początku jednorazowo wykonywana jest seria instrukcji zawartych w~sekcji
+\texttt{loop()}, a~następnie przechodzi do wykonywania instrukcji w~nieskończonej pętli. Schemat działania tej części
+kodu przedstawia diagram blokowy na rys. \ref{img:webserver-firmware}, natomiast na listingu
+\ref{lst:webserver-firmware} przedstawiona została implementacja tej części oprogramowania.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.35\textwidth]{feather-ws/images/firmware-flowchart}
+    \caption{\label{img:webserver-firmware}Diagram blokowy sekcji \texttt{setup()} oprogramowania modułu
+        serwera sieciowego}
+\end{figure}
+
+\lstinputlisting[
+    language=C++,
+    linerange={12-20},
+    caption={Implementacja funkcji \texttt{setup()} modułu serwera sieciowego},
+    label={lst:webserver-firmware},
+    float=htbp
+]{feather-ws/src/main.cpp}
+
+Pierwszym elementem jest ustawienie port szeregowy na 115200 baud (szybkość transmisji), a~następnie inicjalizacja
+magistrali I2C oraz dołączenie modułu w~roli SLAVE (odbiorca). Ostatnimi krokami wykonywanymi przed przejściem do
+nieskończonej pętli jest, wykorzystując zaimplementowane funkcje \texttt{wifi::init()} oraz \texttt{webserver::init()},
+inicjalizacja modułu WiFi oraz samego serwera sieci lokalnej. Na listingach \ref{lst:wifi-init} oraz
+\ref{lst:webserver-init} przedstawione zostały kody źródłowe tych funkcji.
+
+\lstinputlisting[
+    language=C++,
+    linerange={7-37},
+    caption={Implementacja funkcji \texttt{wifi::init()}},
+    label={lst:wifi-init},
+    float=htbp
+]{feather-ws/src/wificonfig.cpp}
+
+\lstinputlisting[
+    language=C++,
+    linerange={5-5,8-17},
+    caption={Implementacja funkcji \texttt{webserver::init()}},
+    label={lst:webserver-init},
+    float=htbp
+]{feather-ws/src/webserver.cpp}
+
+\FloatBarrier
+Inicjalizacja WiFi wykorzystuje zdefiniowane w~osobnym pliku konfiguracyjnym SSID (nazwę) oraz hasło do sieci WiFi,
+gdzie moduł ma wykonać próbę podłączenia. Do implementacji funkcji została dodana także funkcja sprawdzenia czy
+rozszerzenie WiFi na płytce Feather jest poprawnie podłączone. Gdy moduł serwera próbuje zalogować się do sieci,
+wbudowana dioda miga, natomiast, gdy połączenie zostanie uzyskane świeci światłem stałym. Ponieważ do poprawnego
+działania wymagane jest połączenie z~siecią WiFi, weryfikacja tego kroku została zaimplementowana w~postaci
+nieskończonej pętli while, która blokuje dalsze działanie oprogramowania, jeżeli modułowi nie został przydzielony adres
+IP w~sieci lokalnej. Implementacja oraz działanie funkcji inicjalizacji serwera sieciowego jest znacznie mniej
+skomplikowane -- tworzony jest nowy obiekt serwera \texttt{server}, następnie kod oczekuje na połączenie z~siecią WiFi,
+po czym serwer zostaje uruchomiony i~można się do niego podłączyć korzystając z~logowanego przez port szeregowy adresu
+IP. Na rys. \ref{img:webserver-website} przedstawiony został zrzut ekranu ze strony internetowej dostępnej w~sieci
+lokalnej, gdzie podłączony został moduł serwera sieciowego.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/webserver-website}
+    \caption{\label{img:webserver-website}Wygląd strony internetowej zaimplementowanej do wizualizacji danych zbieranych
+        z~sieci}
+\end{figure}
+
+
+Po zakończonej inicjalizacji magistrali I2C, skonfigurowaniu oraz podłączeniu się do WiFi oraz uruchomieniu serwera
+oprogramowanie przechodzi do nieskończonej pętli. Zaimplementowane zostały tutaj funkcje odpowiedzialne za serwowanie
+strony internetowej dla użytkownika oraz odbieranie danych przez magistralę I2C od modułu MASTER sieci LoRa oraz
+dekodowanie ich. Na rys. \ref{img:webserver-flowchart} przedstawiony został schemat blokowy działania obu tych funkcji.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{feather-ws/images/loop-flowchart}
+    \caption{\label{img:webserver-flowchart}Schemat blokow działania funkcji w~nieskończonej pętli serwera sieciowego}
+\end{figure}
+
+\subsection{\label{sect:webserver-website}Wyświetlanie strony internetowej z~danymi} Implementacja serwera sieciowego
+oraz strony, do której użytkownik może uzyskać dostęp w~sieci lokalnej bazuje na bibliotece WiFi101. W~każdej iteracji
+pętli sprawdzane jest czy do serwera próbuje podłączyć się nowy klient. Jeżeli otrzymane zostanie nowe żądanie (ang.
+\textsl{request}), to inicjalizowany jest timer sprawdzjący czy nie nastąpiło przekrocznenie na wysłanie odpowiedzi lub
+klient nie stracił połączenia. Wartość ta została przyjęta jako 2~sekundy -- wartość wystarczająco duża, aby połączenie
+nie było zamykane zbyt wcześnie oraz wystarczająco niska, aby inne żądania mogły zostać obsłużone bez nadmiernego
+oczekiwania. Kod źródłowy tej części przedstawiony został na listingu \ref{lst:wifi-newclient}.
+
+\lstinputlisting[
+    language=C++,
+    linerange={24-35,58-61},
+    caption={Implementacja obsługi nowego żądania w~oprogramowaniu serwera sieciowego},
+    label={lst:wifi-newclient},
+    float=htbp
+]{feather-ws/src/main.cpp}
+
+W~momencie otrzymania nowego żądania serwer odbiera pojedynczo wszystkie przesyłane do niego znaki. Przy każdym znaku
+sprawdzane jest czy nie nastąpiło rozłączenie z~klientem. Odbierane znaki są sprawdzane czy jest to znak nowej linii
+(\texttt{\textbackslash n}) oraz czy obecnie następna linia jest pusta -- jest to sygnał, że całe zapytanie zostało
+odebrane, a~serwer powinien wysłać odpowiedź. W~przypadku, gdy znakiem nie jest \texttt{\textbackslash n}, ani
+\texttt{\textbackslash r} zostaje on dodany do obecnej linii, tak aby zebrać pełny nagłówek żądania, zawierający
+wszystkie informacje. Implementacja tego elementu przedstawiona została na listingu \ref{lst:wifi-processrequest}.
+
+\lstinputlisting[
+    language=C++,
+    linerange={42-57},
+    caption={Implementacja odbierania przychodzącego żądania},
+    label={lst:wifi-processrequest},
+    float=htbp
+]{feather-ws/src/main.cpp}
+
+\FloatBarrier
+Przesyłanie odpowiedzi przez serwer wykonywane wykorzystując do tego zaimplementowaną funkcję
+\texttt{webserver::serve()}. Jej implementacja przedstwiona została na listingu \ref{lst:webserver-serve}. W~celu
+przesłania odpowiedzi na żądanie oprócz zawartości samej strony wymagane jest przesłanie także nagłówka strony. Aby
+zmniejszyć ilość wymaganej pamięci SRAM wymaganej na oprogramowanie znaczna część kodu strony (nagłówek HTTP, nagłówek
+strony \texttt{<head>} oraz część wyświetlanej użytkownikowi strony) przechowywana jest w~pamięci programowej
+\texttt{PROGMEM} (pamięci flash) mikrokontrolera. Elementy zostają pobrane ze zdefiniowanych zmiennych oraz przesłane do
+żądającego klienta wykorzysując do tego pętle typu \texttt{for-range}. Do przesłania elementów, gdzie wymagane są dane,
+które moduł odebrał z~sieci LoRa, wykorzystana została zaimplementowana funkcja szablonowa \texttt{printRow}
+(przesyłanie jednego wiersza tabeli z~danymi). Kod źródłowy tej funkcji przedstawiony został na listingu
+\ref{lst:webserver-printrow}.
+
+\lstinputlisting[
+    language=C++,
+    linerange={19-44},
+    caption={Implementacja funkcji do przesyłania zawartości strony internetowej \texttt{webserver::serve()}},
+    label={lst:webserver-serve},
+    float=htbp
+]{feather-ws/src/webserver.cpp}
+
+\lstinputlisting[
+    language=C++,
+    linerange={46-64},
+    caption={Implementacja funkcji szablonowej \texttt{printRow()}},
+    label={lst:webserver-printrow},
+    float=htbp
+]{feather-ws/src/webserver.cpp}
+
+\FloatBarrier
+Funkcja opiera się na modyfikacji ciągu znaków zawierającego format pojedynczej komórki tabeli oraz pętli typu
+\texttt{for-range}. Wykorzystuje do tego funkcję \texttt{sprintf}, przyjmując jako argument ciąg, który ma zostać w~to
+miejsce wstawiony -- nagłówek wiersza (ciąg znaków, tablicę \texttt{const char}), który zawiera informację o~typie
+danych w~danym wierszu lub bezpośrednią wartość otrzymaną z~sieci LoRa (wartość zmiennoprzecinkowa, \texttt{float}).
+
+\FloatBarrier
+\subsection{\label{sect:webserver-i2cdecode}Odbieranie oraz dekodowanie danych z~sieci LoRa} W~celu
+uzyskania jak najlepszej wydajności odbierania oraz dekodowania otrzywanych danych zaimplementowane rozwiązanie
+w~znacznym stopniu ogranicza wykorzystanie funkcji, która powoduje dynamiczny przydział pamięci (ang. \textsl{dynamic
+    memory allocation}). Pierwszym elementem jest odebranie pełnej wiadomości. Aby przetwarzanie danych było łatwiejsze
+każdy, pojedynczy znak jest dodawany do ciągu znaków (string) -- jest to jedyny element implementacji wykorzystujący
+dynamiczną alokację. Odpowiedzialny za to fragment kodu przedstawiony został na listingu \ref{lst:webserver-i2creceive}.
+
+\lstinputlisting[
+    language=c++,
+    linerange={64-76},
+    caption={Implementacja funkcji odbierającej dane przez magistralę I2C},
+    label={lst:webserver-i2creceive},
+    float=htbp
+]{feather-ws/src/main.cpp}
+
+\FloatBarrier
+Następnie wywoływana jest funkcja \texttt{decodeStr()}, której kod przedstawiony został na listingu
+\ref{lst:webserver-decodestr}. Pierwszym elementem jest przetworzenie wejściowego ciągu znaków na tablicę pojedyncznych
+znaków o~długości większej o~jeden znak. Dodatkowy element potrzeby jest dla algorytmu w~celu oznaczenia zakończenia
+tablicy. Dodatkowo definiowana jest tablica czteroelementowa do przechowywania indeksu obecnie uzpełnianej danej
+\texttt{dataCounter}. Wykorzystując funkcję z~języka C \texttt{strtok()} tablica dzielona jest na znaku \enquote{\&} --
+wykorzystanego jako łączenie pomiędzy parami klucz-wartość. Drugim elementem jest podział każdej pary na znaku
+\enquote{:} -- łącznika pomiędzy kluczem (od 0~do 4) oraz wartością. Każdorazowo algorytm sprawdza klucz i~na jego
+podstawie otrzymana dana jest przypisywana do odpowiedniego pola struktury na indeksie, którego wartość śledzi licznik
+(\texttt{dataCounter}). Wszystkie operacje są następnie powtarzane do momentu, gdy algorym dotrze do końca tablicy.
+
+\lstinputlisting[
+    language=C++,
+    linerange={78-79,84-128},
+    caption={Implementacja funkcji do dekodowania danych przesyłanych przez moduł MASTER},
+    label={lst:webserver-decodestr},
+    float=htbp
+]{feather-ws/src/main.cpp}
