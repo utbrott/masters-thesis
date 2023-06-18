@@ -17,6 +17,17 @@ gdzie argumentem jest docelowy mikrokontroler:
 \begin{verbatim}
    pio project init --board <board>
 \end{verbatim}
+Zrzut ekranu z~procesu tworzenia przykładowego projektu, wykorzystując do tego PlatformIO Core przedstawiony został na
+rys. \ref{img:pio-project-init}. Widoczny proces instalacji dodatkowych narzędzi wymagany jest zawsze przy tworzeniu
+nowego projektu na nowej platformie (w przypadku, gdy platforma była już wykorzystywana PlatformIO weryfikuje tylko czy
+zainstalowane biblioteki, narzędzia są w~najnowszej wersji). Ponieważ komenda została wywołana wewnątrz maszyny
+wirtualnej, na świeżo zainstalowanym PlaformIO wymagane było pobranie oraz instalacja potrzebnych elementów.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/pio-project-init}
+    \caption{\label{img:pio-project-init}Tworzenie nowego projektu wykorzstując do tego PlatformIO Core (CLI)}
+\end{figure}
 
 W~przypadku projektu dla sieci LoRa wykorzystane zostały płytki Nucleo L152RE, stąd argumentem było
 \texttt{nucleo\_l152}, natomiast dla projektu serwera sieci lokalnej -- \texttt{adafruit\_feather\_m0}. Użycie komendy
@@ -54,13 +65,21 @@ Argumentami dodatkowymi mogą być:
           jednostkowych lub wykorzystanych bibliotek,
     \item \texttt{--target}: cel uruchomienia (np. kompilacja albo kombinacja kilku celów jednocześnie),
     \item \texttt{--upload-port}: port, do którego podłączone jest urządzenie i~na które ma zosatać wgrany kod.
-          Szczególnie użyteczne w~przypadku, gdy pracuje się na wielu urządzeniach jednocześnie,
+          Szczególnie użyteczne w~przypadku, gdy pracuje się na wielu urządzeniach (mikrokontrolerach) jednocześnie,
     \item \texttt{--monitor-port}: port, na którym po zakończeniu procesu ma zostać otwarty monitor portu szeregowego.
 \end{itemize}
 W~przypadku opcji związanych z~portem, jeżeli nie zostaną sprecyzowane (podane jako argument do komendy), PlatformIO
 będzie próbował wykryć je automatycznie. Dostępne jest jeszcze kilka innych opcji, jednkże są one znacznie rzadziej
-wykorzystywane, ponieważ ich domyślne opcje są tymi, które są najczęściej ustawiane.
+wykorzystywane, ponieważ ich domyślne opcje są tymi, które są najczęściej ustawiane. Przykładowe wykorzystanie komendy
+do kompilacji projektu przedstawione zostało na rys. \ref{img:pio-run}.
 
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/pio-run}
+    \caption{\label{img:pio-run}Przykładowe wywołanie komendy \texttt{pio run}, tutaj do kompilacji projektu}
+\end{figure}
+
+\FloatBarrier
 \subsection{Zarządzanie bibliotekami\label{sect:pio-pkg}} PlatformIO posiada wbudowany moduł dedykowany do zarządzania
 bibliotekami oraz innymi zasobami dołączanymi do projektu. Dzięki wykorzystaniu odpowiedniej podkomendy z~zestawu:
 \begin{verbatim}
@@ -73,10 +92,20 @@ dla frameworku Arduino, tak jak \enquote{Wire} czy te, które opublikowane zosta
 rejestru PlatformIO). Na rys. \ref{img:pio-pkg-search} przedstawiony zostały przykładowy wynik wyszukiwania dostępnych
 bibliotek związanych z~hasłem \enquote{LoRa}. Każdy wynik zawiera informację: nazwę, typ paczki, biblioteki, która
 została znaleziona, najnowszą wersję, datę publikacji oraz krótki opis tego czym dana paczka, biblioteka są. Komenda
-pokazuje także informacje o~tym ile wyników zostało znalezionych.
+pokazuje także informacje o~tym ile wyników zostało znalezionych. Instalowanie bibliotek obdywa się poprzez
+wykorzystanie argumentów \texttt{install --library} oraz podanie nazwy oraz wersji wybranego elementu (np. z~uprzednio
+wyszukanej listy). Przykładowe wykorzystanie tej komenedy przedstawione zostało na rys. \ref{img:pio-pkg-install}.
+Podczas instalacji (co widoczne jest na zrzucie ekranu) narzędzie weryfikuje -- oraz jeżeli jest to potrzebne instaluje
+-- jakie inne biblioteki są wymagane przez tą, która użytkownik dodaje do projektu.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1.0\textwidth]{screenshots/pio-pkg-search}
+    \includegraphics[width=\textwidth]{screenshots/pio-pkg-search}
     \caption{\label{img:pio-pkg-search}Wyniki wyszukiwania bibliotek powiązanych z~hasłem \enquote{LoRa}}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{screenshots/pio-pkg-install}
+    \caption{\label{img:pio-pkg-install}Przykład wykorzystania komendy do instalacji bibliotek w~projekcie}
 \end{figure}
