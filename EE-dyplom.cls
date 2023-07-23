@@ -878,3 +878,4 @@
 
 \RequirePackage[section]{placeins}
 \RequirePackage{nicefrac}
+\RequirePackage{booktabs}

@@ -66,7 +66,7 @@ mikrokontrolera jako części, z~którą można komunikować się po tej magistr
 \section{Implementacja oprogramowania elementów sieci\label{sect:firmware-network}} Zaprojektowana sieć składała się
 w~sumie z~pięciu modułów -- 4~z~nich stanowiły elementy sieci LoRa, natomiast ostatni był wykorzystywany jako serwer
 w~sieci lokalnej. W~projekcie nie została wykorzystana pełna funkcjonalność LoRaWAN oraz typowa dla niej architektura
-(przedstawiona w~sekcji \ref{sect:lorawan}, rys. \ref{img:lorawan-architecture}), ponieważ implementacja takiego
+(przedstawiona w~podrodziale \ref{sect:lorawan}, rys. \ref{img:lorawan-architecture}), ponieważ implementacja takiego
 rozwiązania jest bardzo kosztowna i~wymaga znacznie większej ilości elementów. Aby móc skorzystać ze specyfikacji
 wymagane jest posiadanie bramy (ang. \textsl{gateway}) oraz serwerów odpowiedzialnych za przyłączanie urządzeń,
 zarządzanie siecią oraz serwera aplikacyjnego. Z~uwagi na to zastosowana została dużo prostsza i~mniej wymagająca metoda
@@ -274,7 +274,7 @@ każdego z~modułów SLAVE (\texttt{totalRequests}). Kod tej funkcji przedstawio
 ]{lora-psn/src/main.cpp}
 
 \lstinputlisting[
-    language=C++,
+    language=c++,
     linerange={242-249},
     caption={Implementacja funkcji pomocnicznej do wyznaczania wartości procentowej zapytań z~błędem},
     label={lst:main-failedpercent},

@@ -1,0 +1,27 @@
+\section{\label{sect:network-comm}Badanie komunikacji w sieci} Podstawowym badaniem było było sprawdzenie poprawności
+komunikacji. Aby otrzymać zestaw danych testowych, moduły pozostały włączone, bez restartowania ich, przez 1 godzinę.
+Przy ustawieniu okresu pomiędzy wysyłaniem żądań przez moduł MASTER na 1 minutę dało to 61 pełnych wymian danych w sieci
+-- 1 żądanie przy pierwszym uruchomieniu modułu MASTER oraz 60 podczas pracy modułu na zaimplementowanym zegarze (w
+sumie 183 żądania do każdego modułu SLAVE). Średnia odległość pomiędzy modułami podczas badania wynosiła 0.45m (45cm).
+
+\begin{table}[!htbp]
+    \centering
+    \caption{\label{tab:1h-comm-test}Wyniki przeprowadzonego badania komunikacji w czasie 1 godziny.}
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        Zapytania         & \multicolumn{1}{l}{SLAVE 1} & \multicolumn{1}{l}{SLAVE 2} & \multicolumn{1}{l}{SLAVE 3} \\ \midrule
+        W sumie {[}-{]}   & 183                         & 183                         & 183                         \\
+        Nieudane {[}-{]}  & 4                           & 0                           & 1                           \\
+        Nieudane {[}\%{]} & 2.19                        & 0                           & 0.55                        \\ \bottomrule
+    \end{tabular}
+\end{table}
+
+Na podstawie danych sporządzony został wykres, przedstawiający otrzymane wyniki  -- sumę wysłanych zapytań oraz ilość,
+która zakończyła się błędem. Przedstawiony on został na rysunku \ref{img:1h-comm-test}.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{research/1h-comm-test}
+    \caption{\label{img:1h-comm-test}Wykres słupkowy przedstawiający wyniki 1-godzinnego testu komunikacji sieci}
+\end{figure}
+
