@@ -1,12 +1,12 @@
-W~celu zweryfikowania czy zaimplementowane oprogramowanie działa poprawnie wykonano zestaw testów. Sprawdzone zostało
+W~celu zweryfikowania czy zaimplementowane oprogramowanie działa poprawnie, wykonano zestaw testów. Sprawdzone zostało,
 czy moduły komunikują się poprawnie między sobą (między modułami sieci oraz modułem MASTER a~modułem serwera sieciowego)
-oraz czy dane, które moduł serwera sieciowego odebrał wyświetlane są poprawnie na zaimplementowanej stronie
+oraz czy dane, które moduł serwera sieciowego odebrał, wyświetlane są poprawnie na zaimplementowanej stronie
 internetowej.
 
 \section{\label{sect:test-network-comm}Testy komunikacji sieci} Do sprawdzenia poprawności komunikacji wewnątrz sieci
 wykorzystana została implementacja funkcji, która zlicza ilość wysłanych zapytań przez moduł MASTER oraz ilość
-otrzymanych odpowiedzi oraz funkcja, która na podstawie otrzymanych wartości oblicza wartość procentową zapytań z~błędem
-(niezależnie od tego czy był to timeout -- przekroczenie czasu oczekiwania na odpowiedź, czy otrzymana odpowiedź nie
+otrzymanych odpowiedzi, oraz funkcja, która na podstawie otrzymanych wartości oblicza wartość procentową zapytań z~błędem
+(niezależnie od tego, czy był to timeout -- przekroczenie czasu oczekiwania na odpowiedź, czy otrzymana odpowiedź nie
 zgadzała się z~tą, na jaką moduł MASTER oczekiwał). Kod źródłowy odpowiedzialnych za to elementów przedstawiony został
 na listingach \ref{lst:master-req-count} oraz \ref{lst:master-failedpercent}.
 
@@ -40,7 +40,7 @@ oprogramowanie zlicza całkowitą ilość zapytań oraz ilość błędów w~komu
 
 \FloatBarrier
 \section{\label{sect:test-webserver-comm}Testy transmisji danych do serwera sieciowego} Wykonane zostały także testy
-komunikacji modułu MASTER z~modułem serwera sieciowego. Sprawdzone zostało czy dane zbierane przez sieć LoRa poprawnie
+komunikacji modułu MASTER z~modułem serwera sieciowego. Sprawdzone zostało, czy dane zbierane przez sieć LoRa poprawnie
 przesyłane przez magistralę I2C oraz dekodowane po stronie modułu serwera sieciowego.
 
 Korzystając z~zaimplementowanego logowania przez port szeregowy modułu MASTER informacji o~transmisji przez magistralę
@@ -56,7 +56,7 @@ ilość odebranych transmisji, sprawdzona została poprawność komunikacji.
     float=htbp
 ]{feather-ws/src/main.cpp}
 
-Moduły zostały uruchomione oraz włączony został monitor portu szeregowego modułu MASTER oraz modułu serwera sieciowego.
+Moduły zostały uruchomione oraz włączone zostały monitor portu szeregowego modułu MASTER i~modułu serwera sieciowego.
 Przez pewien czas prowadzona była obserwacja logowanych wartości. Podczas trwania testu stwierdzone zostało, że moduły
 działają i~komunikują się poprawnie. Przykładowe logi, pokazujące poprawną komunikację przedstawione zostały na rys.
 \ref{img:test-i2c-master} oraz \ref{img:test-i2c-webserver}.
@@ -75,17 +75,17 @@ działają i~komunikują się poprawnie. Przykładowe logi, pokazujące poprawn�
 \end{figure}
 
 \FloatBarrier
-\section{\label{sect:test-webserver-website}Testy działania serwera seciowego oraz strony internetowej} Ostatnim
-wykonanym testem, który pozwolił na stwierdzenie, że zaimplementowane oprogramowanie działa poprawnie było sprawdzenie
+\section{\label{sect:test-webserver-website}Testy działania serwera sieciowego oraz strony internetowej} Ostatnim
+wykonanym testem, który pozwolił na stwierdzenie, że zaimplementowane oprogramowanie działa poprawnie, było sprawdzenie
 samego serwera sieciowego. Zweryfikowane zostało czy uruchamia się on poprawnie, gdy pojawi się możliwość zalogowania do
-sieci lokalnej sieci WiFi (której dane zostały podane w~pliku konfiguracyjnym) oraz czy poprawnie działa strona
+sieci lokalnej sieci Wi-Fi (której dane zostały podane w~pliku konfiguracyjnym) oraz czy poprawnie działa strona
 internetowa, którą moduł serwuje użytkownikowi, chcącemu zobaczyć zebrane przez sieć LoRa dane.
 
-Do testu wykorzystany został mobilny hotspot (lokalna sieć WiFi utworzona przez smartphone) oraz zaimplementowana
+Do testu wykorzystany został mobilny hotspot (lokalna sieć Wi-Fi utworzona przez smartphone) oraz zaimplementowana
 rejestracja informacji o~logowaniu się modułu do sieci WiFi i~uruchamiania serwera sieciowego. Na rys.
-\ref{img:wifi-hotspot} oraz \ref{img:webserver-wifi-logging} pokazana została włączony mobilny hotspot oraz logi
+\ref{img:wifi-hotspot} oraz \ref{img:webserver-wifi-logging} pokazane zostały włączony mobilny hotspot oraz logi
 z~modułu serwera sieciowego. Na ich podstawie stwierdzone zostało, że serwer sieciowy działa poprawnie, ponieważ jednym
-z~logów jest informacja o~starcie serwera z~jego lokalnym IP (umożliwającym wyświetlenie strony internetowej) na porcie
+z~logów jest informacja o~starcie serwera z~jego lokalnym IP (umożliwiającym wyświetlenie strony internetowej) na porcie
 80.
 
 \begin{figure}[!htbp]
@@ -97,17 +97,17 @@ z~logów jest informacja o~starcie serwera z~jego lokalnym IP (umożliwającym w
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.70\textwidth]{screenshots/webserver-wifi-logging}
-    \caption{\label{img:webserver-wifi-logging}Logi pokazujące poprawne połączenie z~siecią WiFi oraz uruchomienie
+    \caption{\label{img:webserver-wifi-logging}Logi pokazujące poprawne połączenie z~siecią Wi-Fi oraz uruchomienie
         serwera sieciowego.}
 \end{figure}
 
 \FloatBarrier
 Działanie zaimplementowanej strony internetowej sprawdzone zostało poprzez wykonanie próby załadowania jej w~dwóch
 przypadkach: przed pierwszym przesłaniem danych z~sieci LoRa (lub tuż po restarcie modułu serwera sieciowego) oraz po
-tym jak dane zostały przesłane. Miało to na celu sprawdzenie, poza samym ładowaniem strony, także czy jej zawartość
+tym, jak dane zostały przesłane. Miało to na celu sprawdzenie, poza samym ładowaniem strony, także czy jej zawartość
 zostanie poprawnie zaktualizowana, gdy z~modułu MASTER przesłane zostaną dane. Rys. \ref{img:website-pre-data} pokazuje
 poprawnie załadowaną stronę przed przesłaniem danych z~sieci LoRa, natomiast rys. \ref{img:website-post-data} to zrzut
-ekranu z~widoczoną poprawną aktualizacją danych po odebraniu ich przez moduł serwera sieciowego.
+ekranu z~widoczną poprawną aktualizacją danych po odebraniu ich przez moduł serwera sieciowego.
 
 \begin{figure}[!htbp]
     \centering
