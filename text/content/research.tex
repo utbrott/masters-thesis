@@ -15,19 +15,10 @@ było widać w~krótkich testach, należałoby przemyśleć czy standard LoRa je
 Aby otrzymać zestaw danych testowych, moduły pozostały włączone, bez restartowania ich, przez 1~godzinę. Przy ustawieniu
 okresu pomiędzy wysyłaniem żądań przez moduł MASTER na 1~minutę dało to 61 pełnych wymian danych w~sieci -- 1~żądanie
 przy pierwszym uruchomieniu modułu MASTER oraz 60 podczas pracy modułu na zaimplementowanym zegarze (w sumie 183 żądania
-do każdego modułu SLAVE). Średnia odległość pomiędzy modułami podczas badania wynosiła 0.45m (45cm).
+do każdego modułu SLAVE). Średnia odległość pomiędzy modułami podczas badania wynosiła 0.45 m (45 cm). Otrzymane wyniki po
+przeprowadzeniu badania przedstawione zostały w tabeli \ref{tab:network-communication-1h}.
 
-\begin{table}[!htbp]
-    \centering
-    \caption{\label{tab:1h-comm-test}Wyniki przeprowadzonego badania komunikacji w~czasie 1~godziny.}
-    \begin{tabular}{@{}lccc@{}}
-        \toprule
-        Zapytania         & \multicolumn{1}{l}{SLAVE 1} & \multicolumn{1}{l}{SLAVE 2} & \multicolumn{1}{l}{SLAVE 3} \\ \midrule
-        W~sumie {[}-{]}   & 183                         & 183                         & 183                         \\
-        Nieudane {[}-{]}  & 4                           & 0                           & 1                           \\
-        Nieudane {[}\%{]} & 2.19                        & 0                           & 0.55                        \\ \bottomrule
-    \end{tabular}
-\end{table}
+\input{tables/network-communication-1h}
 
 \FloatBarrier
 Na podstawie zebranych danych sporządzony został wykres, przedstawiający otrzymane wyniki  -- sumę wysłanych zapytań
@@ -36,6 +27,18 @@ niebieskim oznaczono sumę wysłanych zapytań, natomiast kolorem pomarańczowym
 z~powodu błędu. Korzystając z~zebranych danych, możliwe jest zaobserwowanie, że podczas dłuższej komunikacji jedynie
 niewielki procent zapytań kończy się błędem, a~wykorzystanie standardu LoRa jest wyborem, pozwalającym na budowanie
 sieci czujnikowych.
+
+Podczas badania, wykorzystując logowanie informacji o~pracy modułów przez port szeregowy, udało się zaobserwować główną
+przyczyną występowania błędów podczas testów komunikacji na krótkim dystansie. Jeżeli w~momencie, gdy moduł MASTER
+wysyłał zapytanie do dowolnego modułu SLAVE, a~ten w~tym samym czasie był w~trakcie wykonywania pomiarów otoczenia, czas
+oczekiwania na odpowiedź po stronie modułu MASTER przekraczała dozwoloną wartość (1500ms). Czas potrzebny modułowi SLAVE
+na wykonanie fragmentu algorytmu związanego z~pomiarem i~wyznaczaniem średniej kroczącej oraz reakcję na zapytanie
+w~tych przypadkach był większy, niż moduł MASTER czekał na odpowiedź. Problem ten jest związany z~ograniczeniem
+frameworku Arduino (opisane zostały one w~rozdziale \ref{sect:framework-limits}) -- dostępnością tylko przerwań
+sprzętowych oraz braku możliwości przypisania większej ilości funkcji do jednego wyjścia mikrokontrolera. Możliwym
+rozwiązaniem tego byłoby dostosowanie wartości przypisanej jako limit na timeout lub modyfikacja okresu zegara
+kontrolującego wykonywanie pomiarów po stronie, jednakże rozwiązanie to mogłoby wiązać się z~występowaniem większej
+ilości błędów w~przypadku komunikacji na większych odległościach.
 
 \begin{figure}[!htbp]
     \centering
@@ -48,17 +51,17 @@ sieci czujnikowych.
 \section{\label{sect:spectral-analisys}Analiza widmowa transmisji w~standardzie LoRa} Aby dokładniej zapoznać się z~tym,
 jak działa komunikacja w~standardzie LoRa, wykonana została analiza widmowa transmisji pomiędzy modułami sieci.
 Wykorzystane tutaj zostało narzędzie pozwalające na badanie fal radiowych bazujące na SDR (ang. \textsl{Software Defined
-    Radio}) -- Hack RF One oraz darmowe, udostępnione w~charterze open source, oprogramowanie \textsl{gqrx} na platformę
-Linux. Celem tego badania była obserwacja spektrum sygnałów radiowych w~okolicach częstotliwości, na jakich operuje
-LoRa, oraz próba zaobserwowania czy możliwe jest metodą tą zobaczenie pojedynczych chirpów podczas transmisji.
-Stanowisko testowe zostało wykorzystane także do zebrania zestawu próbek I/Q, które, w~późniejszym czasie, zostały
-poddane analizie wykorzystując do tego środowisko MATLAB.
+    Radio}) -- Hack RF One oraz darmowe, udostępnione w~domenie publicznej, oprogramowanie \textsl{gqrx} na platformę Linux.
+Celem tego badania była obserwacja spektrum sygnałów radiowych w~okolicach częstotliwości, na jakich operuje LoRa, oraz
+próba zaobserwowania czy możliwe jest metodą tą zobaczenie pojedynczych chirpów podczas transmisji. Stanowisko testowe
+zostało wykorzystane także do zebrania zestawu próbek I/Q, które, w~późniejszym czasie, zostały poddane analizie
+wykorzystując do tego środowisko MATLAB.
 
 \subsection{\label{sect:spectral-in-gqrx}Obserwacje transmisji w~oprogramowaniu \textsl{gqrx}} Moduły zostały ustawione
 na stanowisku testowym, odległość pomiędzy nimi podczas badania wynosiła, podobnie jak w~przypadku badania komunikacji,
-około 0.45m. W~odległości około 1m od ustawionej sieci znajdowała się antena podłączona do Hack RF One. Oprogramowanie
+około 0.45 m. W~odległości około 1 m od ustawionej sieci znajdowała się antena podłączona do Hack RF One. Oprogramowanie
 \textsl{gqrx} ustawione zostało w~taki sposób, aby móc odczytywać w~nim dane zbierane przez urządzenie -- rozmiar okna
-FFT na 1048576 próbek (maksymalna wartość dostępna w~programie), co dawało rozdzielczość pasma przenoszenia 1Hz oraz
+FFT na 1048576 próbek (maksymalna wartość dostępna w~programie), co dawało rozdzielczość pasma przenoszenia 1 Hz oraz
 częstotliwość odświeżania na 60fps (ang. \textsl{frames per second} -- klatek na sekundę, maksymalna dostępna). Na tak
 przygotowanym stanowisku testowym uruchomione zostały moduły. Aby uzyskać lepszą dokładność obserwacji, na modułach
 wyłączona została funkcjonalność pracy na zegarze, a~transmisja uruchamiana była każdorazowo ręcznie (wykorzystując
@@ -224,34 +227,35 @@ miał największą możliwą czytelność.
 Korzystając z~zaimplementowanej funkcji, wygenerowane zostały spektrogramy jednego z~zarejestrowanych sygnałów, stosując
 zwiększające przybliżenie, w~celu uzyskania jak najlepszego widoku na pojedynczą transmisję. Wygenerowane wykresy
 przedstawione zostały przedstawione na rys. \ref{img:signal1-level1}, \ref{img:signal1-level2}, \ref{img:signal1-level3}
-oraz \ref{img:signal1-level4} (zbliżenia w~czasie 2.5s a 6s, pokazujące 3~transmisje, do 3.6s a 4.6s, pokazując
+oraz \ref{img:signal1-level4} (zbliżenia w~czasie 2.5 s a 6 s, pokazujące 3~transmisje, do 3.6 s a 4.6 s, pokazując
 dokładniej 1~transmisję).
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl1}
-    \caption{\label{img:signal1-level1}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 2.5s a 5.5s}
+    \caption{\label{img:signal1-level1}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 2.5 s a 5.5 s}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl2}
-    \caption{\label{img:signal1-level2}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3s a 5.1s}
+    \caption{\label{img:signal1-level2}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3 s a 5.1 s}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl3}
-    \caption{\label{img:signal1-level3}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.4s a 5s}
+    \caption{\label{img:signal1-level3}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.4 s a 5 s}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl4}
-    \caption{\label{img:signal1-level4}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.6s a 4.6s,
+    \caption{\label{img:signal1-level4}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.6 s a 4.6 s,
         widoczna jedna transmisja}
 \end{figure}
 
+\FloatBarrier
 Na podstawie wygenerowanych spektrogramów możliwe było przeanalizowanie jednej pełnej ramki transmisji danych. Dzięki
 uzyskanemu dużemu przybliżeniu na analizowany sygnał możliwe było wyznaczenie granic poszczególnych elementów ramki
 LoRa. Przedstawione zostało to na rys. \ref{img:signal2-zoomed-analysis} oraz \ref{img:signal3-zoomed-analysis}
@@ -277,11 +281,68 @@ rozróżnienie elementów transmisji. Są one widoczne tylko w~częściach oznac
 wykresach, ponieważ tylko te elementy są zmienne w~każdej transmisji -- zawierają nagłówek, właściwe przesyłane dane
 oraz kod CRC (ang. \textsl{Cyclic Redundancy Check}, służący wykrywaniu potencjalnych błędów w~transmisji). Pozostałe
 elementy są elementami stałymi dla każdej ramki: preambuła (której długość ustawiona została na 8~symboli) -- pozwala
-innym elementom sieci na wykrycie początku transmisji ramki, a~także dodatkowe symbole up-chirp oraz down-chirp --
-w~sumie 4.25 symbolu, służące synchronizacji, aby mieć jak największą pewność, że dane, które mają zostać przesłane, nie
-zostaną w~żaden sposób zniekształcone przez ew. przesunięcia w~czasie.
+innym elementom sieci na wykrycie początku transmisji ramki, a~także dodatkowe symbole w modulacjach Up-chirp (niższe do
+wyższych częstotliwości) oraz Down-chirp (wyższe do niższych częstotliwości) -- w~sumie 4.25 symbolu, służące
+synchronizacji, aby mieć jak największą pewność, że dane, które mają zostać przesłane, nie zostaną w~żaden sposób
+zniekształcone przez ew. przesunięcia w~czasie.
 
-Ponieważ każda ramka LoRa zawiera kodowanie, możliwe jest jedynie rozróżnienia pojedynczych ramek między sobą, jednakże
-nie jest już możliwe, korzystając wyłącznie ze spektrogramów, rozpoznanie co w~danym momencie jest przesyłane.
+Ponieważ każda ramka LoRa jest kodowana, możliwe jest jedynie rozróżnienia pojedynczych ramek między sobą, jednakże nie
+jest już możliwe, korzystając wyłącznie ze spektrogramów, rozpoznanie co w~danym momencie jest przesyłane.
 W~zaprezentowanych ramkach z~dwóch różnych próbek widać pewne różnice w~przesyłanych symbolach, jednakże tylko na
 podstawie tego nie jest możliwe pokazanie, które symbole przedstawiają konkretne bity przesyłanych wiadomości.
+
+\FloatBarrier
+
+\section{\label{sect:network-communication-params}Badanie parametrów komunikacyjnych sieci} Kolejnym elementem wartym
+zbadania w przypadku budowania sieci bezprzewodowych jest określenie ich możliwości komunikacji. Parametry, jakie
+zostały sprawdzone to skuteczny zasięg komunikacji oraz przepustowość sieci -- teoretycznie, korzystając z dostępnych
+wzorów, w celu określenia co jest możliwe do uzyskania oraz porównanie faktycznie uzyskanymi wynikami, na podstawie
+zebranych danych I/Q oraz wygenerowanych spektrogramów.
+
+\subsection{\label{sect:network-communication-range}Skuteczny zasięg komunikacji} Zasięg komunikacji sprawdzony został
+dla dwóch różnych przypadków. Modyfikując wartość parametru Spreading Factor (SF, długość symbolu, związana z ilością
+przesyłanych bitów) sprawdzone zostały dwa skrajne przypadki -- krótkie, szybkie transmisje dla SF7 oraz wolniejsze,
+dłuższe transmisje dla SF12. Badanie przeprowadzone zostało w terenie średnio zabudowanym i częściowo zalesionym.
+Otoczenie to wybrane zostało, ponieważ założyć można było, że komunikacja między modułami będzie odbywać się bez
+zakłóceń zewnętrznych pochodzących z innych urządzeń nadających na tym samym paśmie co badana sieć.
+
+Według specyfikacji standardu oraz na podstawie innych badań teoretyczny zasięg komunikacji między modułami określony
+został na 5 km \cite{lora-phy-range-test}. Podczas badania wykorzystane zostało nieznacznie zmodyfikowane oprogramowanie
+-- wyłączona została funkcja zegara i każdorazowo zapytania były wysyłane ręcznie, wykorzystując do tego przycisk na
+module MASTER.
+
+Scenariusz badania opierał się na pozostawieniu modułów SLAVE podłączonych do komputera stacjonarnego (w celu
+późniejszej obserwacji logów z ich pracy), natomiast modułem \enquote{poruszającym się} był moduł MASTER. Wykorzystując
+dostępne online mapy, określone zostały miejsca, gdzie należało się zatrzymać i zainicjować transmisję. Badanie nie
+zostało wykonane w ruchu, aby moduły miały jak największe szanse na uzyskanie połączenia, a także dlatego, że celem
+badania było symulowanie statycznej sieci operującej na dużych odległościach, a nie mobilnego punktu pomiarowego.
+Dodatkowo podczas badania sprawdzony został wpływ dość gęstego lasu na możliwości komunikacji modułów. Testy
+przeprowadzone zostały zwiększając odległość od modułów SLAVE co około 100 m za każdym razem.
+
+Na podstawie uzyskanych wyników sporządzona została mapa (rys. \ref{img:distance-research-map}) przedstawiająca
+odległości, które pozwoliły na uzyskanie komunikacji między modułami.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{research/distance-research-map}
+    \caption{\label{img:distance-research-map}Mapa z oznaczonymi odległościami, gdzie udało się uzyskać komunikację}
+\end{figure}
+
+\FloatBarrier
+Wyniki uzyskane podczas badania były znacznie gorsze niż przedstawione w innych pracach badających te możliwości
+standardu LoRa. Kolorem czerwonym na mapie zaznaczone zostały odległości, które pozwoliły na uzyskanie jakiejkolwiek
+komunikacji pomiędzy modułami dla ustawienia SF7 oraz SF12. W obu przypadkach, w odległościach większych niż zaznaczone,
+każdorazowe wysłanie zapytania z modułu MASTER kończyło się brakiem jakiejkolwiek odpowiedzi od modułów SLAVE.
+
+Na podstawie uzyskanych wyników pojawia się wniosek, że aby możliwym było uzyskanie znacznie większych odległości
+komunikacji między modułami, środowisko, w jakim one pracują, musiałoby być znacznie mniej zabudowane oraz pozbawione
+znacznej ilości przeszkód, jakie mogły występować podczas badania. Jednakże uzyskane wyniki pokazują też, że możliwe
+jest zbudowanie oraz zaimplementowanie sieci, która pozwala na komunikację na znacznych dystansach.
+
+\subsection{\label{sect:network-communication-bitrate}Badanie przepustowości sieci}
+
+\FloatBarrier
+
+\section{\label{sect:network-power-params}Badanie poboru prądu i zużycia energii}
+\subsection{\label{sect:network-modules-current-draw}Badanie poboru prądu przez moduły sieci}
+\subsection{\label{sect:network-work-on-battery}Maksymalny teoretyczny czas pracy sieci}
