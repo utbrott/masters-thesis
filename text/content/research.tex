@@ -16,7 +16,7 @@ Aby otrzymać zestaw danych testowych, moduły pozostały włączone, bez restar
 okresu pomiędzy wysyłaniem żądań przez moduł MASTER na 1~minutę dało to 61 pełnych wymian danych w~sieci -- 1~żądanie
 przy pierwszym uruchomieniu modułu MASTER oraz 60 podczas pracy modułu na zaimplementowanym zegarze (w sumie 183 żądania
 do każdego modułu SLAVE). Średnia odległość pomiędzy modułami podczas badania wynosiła 0.45 m (45 cm). Otrzymane wyniki po
-przeprowadzeniu badania przedstawione zostały w tabeli \ref{tab:network-communication-1h}.
+przeprowadzeniu badania przedstawione zostały w~tabeli \ref{tab:network-communication-1h}.
 
 \input{tables/network-communication-1h}
 
@@ -59,9 +59,9 @@ wykorzystując do tego środowisko MATLAB.
 
 \subsection{\label{sect:spectral-in-gqrx}Obserwacje transmisji w~oprogramowaniu \textsl{gqrx}} Moduły zostały ustawione
 na stanowisku testowym, odległość pomiędzy nimi podczas badania wynosiła, podobnie jak w~przypadku badania komunikacji,
-około 0.45 m. W~odległości około 1 m od ustawionej sieci znajdowała się antena podłączona do Hack RF One. Oprogramowanie
+około 0.45 m. W~odległości około 1~m od ustawionej sieci znajdowała się antena podłączona do Hack RF One. Oprogramowanie
 \textsl{gqrx} ustawione zostało w~taki sposób, aby móc odczytywać w~nim dane zbierane przez urządzenie -- rozmiar okna
-FFT na 1048576 próbek (maksymalna wartość dostępna w~programie), co dawało rozdzielczość pasma przenoszenia 1 Hz oraz
+FFT na 1048576 próbek (maksymalna wartość dostępna w~programie), co dawało rozdzielczość pasma przenoszenia 1~Hz oraz
 częstotliwość odświeżania na 60fps (ang. \textsl{frames per second} -- klatek na sekundę, maksymalna dostępna). Na tak
 przygotowanym stanowisku testowym uruchomione zostały moduły. Aby uzyskać lepszą dokładność obserwacji, na modułach
 wyłączona została funkcjonalność pracy na zegarze, a~transmisja uruchamiana była każdorazowo ręcznie (wykorzystując
@@ -227,31 +227,31 @@ miał największą możliwą czytelność.
 Korzystając z~zaimplementowanej funkcji, wygenerowane zostały spektrogramy jednego z~zarejestrowanych sygnałów, stosując
 zwiększające przybliżenie, w~celu uzyskania jak najlepszego widoku na pojedynczą transmisję. Wygenerowane wykresy
 przedstawione zostały przedstawione na rys. \ref{img:signal1-level1}, \ref{img:signal1-level2}, \ref{img:signal1-level3}
-oraz \ref{img:signal1-level4} (zbliżenia w~czasie 2.5 s a 6 s, pokazujące 3~transmisje, do 3.6 s a 4.6 s, pokazując
+oraz \ref{img:signal1-level4} (zbliżenia w~czasie 2.5 s~a 6~s, pokazujące 3~transmisje, do 3.6 s~a 4.6 s, pokazując
 dokładniej 1~transmisję).
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl1}
-    \caption{\label{img:signal1-level1}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 2.5 s a 5.5 s}
+    \caption{\label{img:signal1-level1}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 2.5 s~a 5.5 s}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl2}
-    \caption{\label{img:signal1-level2}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3 s a 5.1 s}
+    \caption{\label{img:signal1-level2}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3~s a 5.1 s}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl3}
-    \caption{\label{img:signal1-level3}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.4 s a 5 s}
+    \caption{\label{img:signal1-level3}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.4 s~a 5~s}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{research/gqrx/zoom-win1024-sig1-lvl4}
-    \caption{\label{img:signal1-level4}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.6 s a 4.6 s,
+    \caption{\label{img:signal1-level4}Spektrogram sygnałów z~pierwszej próbki wraz ze zbliżeniem między 3.6 s~a 4.6 s,
         widoczna jedna transmisja}
 \end{figure}
 
@@ -281,7 +281,7 @@ rozróżnienie elementów transmisji. Są one widoczne tylko w~częściach oznac
 wykresach, ponieważ tylko te elementy są zmienne w~każdej transmisji -- zawierają nagłówek, właściwe przesyłane dane
 oraz kod CRC (ang. \textsl{Cyclic Redundancy Check}, służący wykrywaniu potencjalnych błędów w~transmisji). Pozostałe
 elementy są elementami stałymi dla każdej ramki: preambuła (której długość ustawiona została na 8~symboli) -- pozwala
-innym elementom sieci na wykrycie początku transmisji ramki, a~także dodatkowe symbole w modulacjach Up-chirp (niższe do
+innym elementom sieci na wykrycie początku transmisji ramki, a~także dodatkowe symbole w~modulacjach Up-chirp (niższe do
 wyższych częstotliwości) oraz Down-chirp (wyższe do niższych częstotliwości) -- w~sumie 4.25 symbolu, służące
 synchronizacji, aby mieć jak największą pewność, że dane, które mają zostać przesłane, nie zostaną w~żaden sposób
 zniekształcone przez ew. przesunięcia w~czasie.
@@ -294,30 +294,30 @@ podstawie tego nie jest możliwe pokazanie, które symbole przedstawiają konkre
 \FloatBarrier
 
 \section{\label{sect:network-communication-params}Badanie parametrów komunikacyjnych sieci} Kolejnym elementem wartym
-zbadania w przypadku budowania sieci bezprzewodowych jest określenie ich możliwości komunikacji. Parametry, jakie
-zostały sprawdzone to skuteczny zasięg komunikacji oraz przepustowość sieci -- teoretycznie, korzystając z dostępnych
-wzorów, w celu określenia co jest możliwe do uzyskania oraz porównanie faktycznie uzyskanymi wynikami, na podstawie
+zbadania w~przypadku budowania sieci bezprzewodowych jest określenie ich możliwości komunikacji. Parametry, jakie
+zostały sprawdzone to skuteczny zasięg komunikacji oraz przepustowość sieci -- teoretycznie, korzystając z~dostępnych
+wzorów, w~celu określenia co jest możliwe do uzyskania oraz porównanie faktycznie uzyskanymi wynikami, na podstawie
 zebranych danych I/Q oraz wygenerowanych spektrogramów.
 
 \subsection{\label{sect:network-communication-range}Skuteczny zasięg komunikacji} Zasięg komunikacji sprawdzony został
-dla dwóch różnych przypadków. Modyfikując wartość parametru Spreading Factor (SF, długość symbolu, związana z ilością
+dla dwóch różnych przypadków. Modyfikując wartość parametru Spreading Factor (SF, długość symbolu, związana z~ilością
 przesyłanych bitów) sprawdzone zostały dwa skrajne przypadki -- krótkie, szybkie transmisje dla SF7 oraz wolniejsze,
-dłuższe transmisje dla SF12. Badanie przeprowadzone zostało w terenie średnio zabudowanym i częściowo zalesionym.
+dłuższe transmisje dla SF12. Badanie przeprowadzone zostało w~terenie średnio zabudowanym i~częściowo zalesionym.
 Otoczenie to wybrane zostało, ponieważ założyć można było, że komunikacja między modułami będzie odbywać się bez
-zakłóceń zewnętrznych pochodzących z innych urządzeń nadających na tym samym paśmie co badana sieć.
+zakłóceń zewnętrznych pochodzących z~innych urządzeń nadających na tym samym paśmie co badana sieć.
 
 Według specyfikacji standardu oraz na podstawie innych badań teoretyczny zasięg komunikacji między modułami określony
-został na 5 km \cite{lora-phy-range-test}. Podczas badania wykorzystane zostało nieznacznie zmodyfikowane oprogramowanie
--- wyłączona została funkcja zegara i każdorazowo zapytania były wysyłane ręcznie, wykorzystując do tego przycisk na
+został na 5~km \cite{lora-phy-range-test}. Podczas badania wykorzystane zostało nieznacznie zmodyfikowane oprogramowanie
+-- wyłączona została funkcja zegara i~każdorazowo zapytania były wysyłane ręcznie, wykorzystując do tego przycisk na
 module MASTER.
 
 Scenariusz badania opierał się na pozostawieniu modułów SLAVE podłączonych do komputera stacjonarnego (w celu
-późniejszej obserwacji logów z ich pracy), natomiast modułem \enquote{poruszającym się} był moduł MASTER. Wykorzystując
-dostępne online mapy, określone zostały miejsca, gdzie należało się zatrzymać i zainicjować transmisję. Badanie nie
-zostało wykonane w ruchu, aby moduły miały jak największe szanse na uzyskanie połączenia, a także dlatego, że celem
-badania było symulowanie statycznej sieci operującej na dużych odległościach, a nie mobilnego punktu pomiarowego.
+późniejszej obserwacji logów z~ich pracy), natomiast modułem \enquote{poruszającym się} był moduł MASTER. Wykorzystując
+dostępne online mapy, określone zostały miejsca, gdzie należało się zatrzymać i~zainicjować transmisję. Badanie nie
+zostało wykonane w~ruchu, aby moduły miały jak największe szanse na uzyskanie połączenia, a~także dlatego, że celem
+badania było symulowanie statycznej sieci operującej na dużych odległościach, a~nie mobilnego punktu pomiarowego.
 Dodatkowo podczas badania sprawdzony został wpływ dość gęstego lasu na możliwości komunikacji modułów. Testy
-przeprowadzone zostały zwiększając odległość od modułów SLAVE co około 100 m za każdym razem.
+przeprowadzone zostały zwiększając odległość od modułów SLAVE co około 100 m~za każdym razem.
 
 Na podstawie uzyskanych wyników sporządzona została mapa (rys. \ref{img:distance-research-map}) przedstawiająca
 odległości, które pozwoliły na uzyskanie komunikacji między modułami.
@@ -325,17 +325,17 @@ odległości, które pozwoliły na uzyskanie komunikacji między modułami.
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.9\textwidth]{research/distance-research-map}
-    \caption{\label{img:distance-research-map}Mapa z oznaczonymi odległościami, gdzie udało się uzyskać komunikację}
+    \caption{\label{img:distance-research-map}Mapa z~oznaczonymi odległościami, gdzie udało się uzyskać komunikację}
 \end{figure}
 
 \FloatBarrier
-Wyniki uzyskane podczas badania były znacznie gorsze niż przedstawione w innych pracach badających te możliwości
+Wyniki uzyskane podczas badania były znacznie gorsze niż przedstawione w~innych pracach badających te możliwości
 standardu LoRa. Kolorem czerwonym na mapie zaznaczone zostały odległości, które pozwoliły na uzyskanie jakiejkolwiek
-komunikacji pomiędzy modułami dla ustawienia SF7 oraz SF12. W obu przypadkach, w odległościach większych niż zaznaczone,
-każdorazowe wysłanie zapytania z modułu MASTER kończyło się brakiem jakiejkolwiek odpowiedzi od modułów SLAVE.
+komunikacji pomiędzy modułami dla ustawienia SF7 oraz SF12. W~obu przypadkach, w~odległościach większych niż zaznaczone,
+każdorazowe wysłanie zapytania z~modułu MASTER kończyło się brakiem jakiejkolwiek odpowiedzi od modułów SLAVE.
 
 Na podstawie uzyskanych wyników pojawia się wniosek, że aby możliwym było uzyskanie znacznie większych odległości
-komunikacji między modułami, środowisko, w jakim one pracują, musiałoby być znacznie mniej zabudowane oraz pozbawione
+komunikacji między modułami, środowisko, w~jakim one pracują, musiałoby być znacznie mniej zabudowane oraz pozbawione
 znacznej ilości przeszkód, jakie mogły występować podczas badania. Jednakże uzyskane wyniki pokazują też, że możliwe
 jest zbudowanie oraz zaimplementowanie sieci, która pozwala na komunikację na znacznych dystansach.
 
@@ -343,6 +343,88 @@ jest zbudowanie oraz zaimplementowanie sieci, która pozwala na komunikację na 
 
 \FloatBarrier
 
-\section{\label{sect:network-power-params}Badanie poboru prądu i zużycia energii}
-\subsection{\label{sect:network-modules-current-draw}Badanie poboru prądu przez moduły sieci}
-\subsection{\label{sect:network-work-on-battery}Maksymalny teoretyczny czas pracy sieci}
+\section{\label{sect:network-power-params}Badanie poboru prądu i~zużycia energii} Ważnym elementem określającym jak
+dobrze może działać sieć bezprzewodowa, jest jej zużycie energii oraz możliwość pracy tylko na zasilaniu bateryjnym.
+W~tym celu zbadano pobór prądu modułów w~różnych momentach:
+\begin{itemize}[label=--]
+    \item praca normalna (stan \enquote{IDLE}, spoczynku, aktywny tylko zegar),
+    \item aktywna komunikacja między modułami,
+    \item wykonywanie pomiarów otoczenia (moduły SLAVE),
+    \item transmisja danych przez I2C (moduł MASTER).
+\end{itemize}
+
+Badanie wykorzystywało standardowe stanowisko testowe -- moduły SLAVE umieszczone w~odległości około 45 cm (0.45 m) od
+modułu MASTER, gdzie wszystkie pracowały na niezmodyfikowanym oprogramowaniu. Testy nie obejmowały sprawdzenia poboru
+prądu przez moduł serwera sieciowego z~uwagi na to, że nie posiadał dostępnego miejsca pomiarowego, a~pomiary
+z~wykorzystaniem jego portu USB posiadałyby znaczną niedokładność pomiarową powiązaną przykładowo z~poborem prądu innych
+elementów płytki (np. diod LED). Na podstawie zebranych danych wyznaczone zostały pobór mocy przez moduły oraz
+teoretyczny maksymalny czas pracy na zasilaniu bateryjnym.
+
+\subsection{\label{sect:network-modules-current-draw}Badanie poboru prądu przez moduły sieci} Wykorzystane moduły STM32
+L152 Nucleo-64 wyposażone są w~zworkę JP6 umieszczoną za stabilizatorem napięcia, z~której był zasilany mikrokontroler
+STM32L152RE. Fragment schematu z~dokumentacji płytki \cite{stm-product-overview} z~oznaczoną zworką przedstawiony został
+na rys. \ref{img:stm32-l152re-schematic-frag}. Gdy była ona założona na wyprowadzone piny, mikrokontroler był zasilany,
+wykorzystując płytkę rozszerzenia ze złączem Mini USB typu B, z~portu USB komputera, gdzie moduł był podłączony.
+W~momencie, gdy była ona usunięta, możliwe było w~to miejsce podłączenie amperomierza, co umożliwiało pomiar prądu
+pobieranego bezpośrednio przez mikrokontroler.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{screenshots/stm32-l152re-schematic-frag}
+    \caption{\label{img:stm32-l152re-schematic-frag}Fragment schematu płytki wykorzystanego modułu STM32 Nucleo-64.
+        Napięcie VDD wyprowadzone jest bezpośrednio do zasilania mikrokontrolera}
+\end{figure}
+
+\FloatBarrier
+
+Wykorzystując monitor portu szeregowego, gdzie logowane są informacje o~pracy modułów oraz opisaną metodę pomiaru
+pobieranego prądu zebrane zostały jego wartości w~wyszczególnionych momentach pracy. Ponieważ pobór nie był równomierny
+przez cały czas pracy modułów, szczególnie w~przypadkach aktywnej komunikacji oraz pracy w~stanie IDLE, w~tych momentach
+zebrano szereg pomiaru, a~następnie wyznaczona została ich średnia. Otrzymane wyniki zebrane zostały w~tabelach
+\ref{tab:power-usage-sf7a}, \ref{tab:power-usage-sf7b} oraz \ref{tab:power-usage-sf12a}, \ref{tab:power-usage-sf12b},
+odpowiednio dla ustawień SF7 oraz SF12.
+
+\input{tables/power-usage-sf7}
+\input{tables/power-usage-sf12}
+
+\FloatBarrier
+W~uzyskanych wynikach można zauważyć, że poszczególne momenty pracy modułów charakteryzują się różnymi wartościami
+poboru prądu, a~zdecydowanie najwięcej wymagane było podczas komunikacji w~sieci.
+
+Biorąc pod uwagę fakt, że zmiana parametru Spreading Factor w~przypadku zasięgu komunikacji wprowadziła znaczącą zmianę
+w~możliwościach komunikacji, złożone zostało, że podobne zachowanie zostanie zaobserwowane w~przypadku poboru prądu --
+moduły przez wydłużony czas komunikacji będą pobierały widocznie więcej prądu. Jednakże w~przypadku tego badania takie
+zachowanie nie zostało zaobserwowane. Moduły pobierały bardzo zbliżony prąd niezależnie od ustawienia, a~różnice
+w~otrzymanych wartościach można przypisać do niedokładności pomiarowej, różnic w~elementach aktywnych oraz pasywnych
+wykorzystanych do produkcji, a~także do nieznacznych różnic w~samych mikrokontrolerach na użytych płytkach.
+
+\subsection{\label{sect:network-work-on-battery}Maksymalny teoretyczny czas pracy sieci} Na podstawie uzyskanych wyników
+pomiarów wyznaczone zostały średnie wartości poboru prądu dla każdego z~modułów. Z~uwagi na to, że nie zaobserwowano
+znaczących różnic między ustawieniami SF7 oraz SF12, obliczenia wykonane zostały tylko dla przypadku SF7:
+\begin{itemize}[label=--]
+    \item moduł MASTER: 11.63 mA,
+    \item moduł SLAVE 1: 11.39 mA,
+    \item moduł SLAVE 2: 11.34 mA,
+    \item moduł SLAVE 3: 11.73 mA.
+\end{itemize}
+Na podstawie otrzymanych wartości zauważyć można, że moduł SLAVE 3~charakteryzował się największym średnim poborem prądu
+spośród wykorzystanych modułów.
+
+Do wyznaczenia teoretycznego maksymalnego czasu pracy modułów na zasilaniu bateryjnym przyjęta została pojemność takiego
+zasobnika na 10000 mAh -- wartość taka jest często spotykana w~dostępnych na rynku powerbankach (zasilaniach
+bateryjnych stosowanych np. do telefonów), które mogą zasilać urządzenia poprzez podłączenie ich przez USB. Do obliczeń
+wykorzystana została zależność przedstawiona równaniem \ref{eqn:battery-life}
+
+\begin{equation}\label{eqn:battery-life}
+    \textsl{Żywotność baterii} = \frac{\textsl{Pojemność baterii (mAh)}}{\textsl{Prąd obciążenia (mA)}}\quad\text{[h]}
+\end{equation}
+
+Obliczenia wykonane zostały dla przypadku największego poboru prądu przez moduły (SLAVE 3), zakładając ciągłą,
+nieprzerwaną pracę modułu. Otrzymana została wartość:
+\begin{equation*}
+    \textsl{Żywotność baterii} = \mathsf{\frac{10000}{11.73}} = \mathsf{852.5}\text{h}
+\end{equation*}
+co przeliczając, równa się 35.52 dniom (lub niespełna 5~tygodniom). Biorąc pod uwagę możliwie większe zużycie energii
+związane z~zasilaniem także innych elementów wykorzystanych płytek (diody LED, czujniki BME280, itp.) wartość ta byłaby
+w~pewnym stopniu mniejsza. Otrzymane wyniki pokazują, że sieć bazująca na standardzie LoRa mogłaby zostać wykorzystana
+do zbudowania sieci czujnikowej, która wymagałaby niewielkiego wkładu pracy w~jej utrzymanie.
