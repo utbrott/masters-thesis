@@ -339,10 +339,50 @@ komunikacji między modułami, środowisko, w~jakim one pracują, musiałoby by�
 znacznej ilości przeszkód, jakie mogły występować podczas badania. Jednakże uzyskane wyniki pokazują też, że możliwe
 jest zbudowanie oraz zaimplementowanie sieci, która pozwala na komunikację na znacznych dystansach.
 
-\subsection{\label{sect:network-communication-bitrate}Badanie przepustowości sieci}
+\subsection{\label{sect:network-communication-bitrate}Badanie przepustowości sieci} Niezależnie od tego, czy budowana
+jest sieć przewodowa, czy bezprzewodowa, ważnym parametrem jest jej przepustowość. W~przypadku, gdy będzie ona zbyt
+niska, sieć mogłaby nie spełniać założeń projektowych lub wymagań, które zostały przyjęte. W~przypadku zaprojektowanej
+oraz zaimplementowanej sieci czujnikowej parametr nie był kluczowy, pomimo tego został on zbadany, w~celu określenia
+możliwości stworzonego rozwiązania.
+
+Pierwszym elementem było określenie teoretycznych parametrów, które sieć powinna móc osiągnąć dla obu skrajnych
+przypadków -- SF7 oraz SF12. Następnie, korzystając z~otrzymanej analizy danych I/Q podjęta została próba porównania
+otrzymanych wyników do wyliczonych wartości teoretycznych.
+
+Parametrami, które brane są pod uwagę przy określaniu przepustowości sieci LoRa, są:
+\begin{itemize}[label=--]
+    \item Spreading Factor, $\mathit{SF}$, określa ilość bitów na symbol,
+    \item Code Rate, $\mathit{CR}$, używany do określenia stosunku bitów użytecznych do ilości bitów przesyłanych,
+    \item Bandwidth, $\mathit{BW}$, szerokość pasma transmisji.
+\end{itemize}
+Do wyznaczenia wartości teoretycznych przyjęte zostały $\mathit{CR}$ = 1~oraz $\mathit{BW}$ = 125 kHz, ponieważ dla
+takich ustawień zebrane zostały dane I/Q podczas analizy widmowej sygnałów.
+
+Do określenia nominalnej, teoretycznej przepustowości $\mathit{Rb}$ wykorzystana została zależność przedstawiona
+równaniem \ref{eqn:lora-bitrate}:
+\begin{equation}\label{eqn:lora-bitrate}
+    \mathit{Rb} = \mathit{SF}\cdot\cfrac{4\cdot{(4+\mathit{CR})^{-1}}}{2^{\mathit{SF}}\cdot{\mathit{BW}^{-1}}}\cdot{1000}\quad\text{[bps]}
+\end{equation}
+
+Dla ustawienia Spreading Factor, SF7 (7 bitów na symbol) nominalna przepustowość sieci równa jest:
+\begin{equation*}
+    \mathit{Rb} = \mathit{SF}\cdot\cfrac{4\cdot{(4+\mathit{CR})^{-1}}}{2^{\mathit{SF}}\cdot{\mathit{BW}^{-1}}}\cdot{1000} = 7 \cdot \frac{4 \cdot 5^{-1}}{2^7\cdot 125^{-1}} \cdot 1000 = 5468.75\,\text{bps} = 5.47\,\text{kbps}
+\end{equation*}
+natomiast dla SF12 (12 bitów na symbol) wartość ta jest znacznie mniejsza:
+\begin{equation*}
+    \mathit{Rb} = \mathit{SF}\cdot\cfrac{4\cdot{(4+\mathit{CR})^{-1}}}{2^{\mathit{SF}}\cdot{\mathit{BW}^{-1}}}\cdot{1000} = 12 \cdot \frac{4 \cdot 5^{-1}}{2^{12}\cdot 125^{-1}} \cdot 1000 = 293\,\text{bps}
+\end{equation*}
+
+Korzystając ze spektrogramów wygenerowanych na podstawie danych I/Q, przedstawionych na rys.
+\ref{img:signal2-zoomed-analysis} oraz \ref{img:signal3-zoomed-analysis} możliwe było określenie, że na każdą
+z~zarejestrowanych transmisji składało się w~sumie 24 do 25 symboli (8 preambuły, 4.25 synchronizacji oraz około 12
+właściwej przesyłanej wiadomości), które zostały przesłane w~czasie około 820 milisekund. Wiedząc, że zarejestrowane
+transmisje korzystały z~ustawienia SF12 (czyli 12 bitów na symbol), wyznaczona została ilość przesłanych w~sumie bitów
+-- około 290. Na podstawie tych informacji możliwe było określenie szacowanej uzyskanej szybkości transmisji
+(przepustowości sieci) na około 353 bps (bitów na sekundę). Otrzymane wartości były zbliżone do wartości nominalnych,
+w~tym przypadku nawet wyższe niż zostało to wyznaczone teoretycznie.
 
 \FloatBarrier
-
 \section{\label{sect:network-power-params}Badanie poboru prądu i~zużycia energii} Ważnym elementem określającym jak
 dobrze może działać sieć bezprzewodowa, jest jej zużycie energii oraz możliwość pracy tylko na zasilaniu bateryjnym.
 W~tym celu zbadano pobór prądu modułów w~różnych momentach:
@@ -413,7 +453,7 @@ spośród wykorzystanych modułów.
 Do wyznaczenia teoretycznego maksymalnego czasu pracy modułów na zasilaniu bateryjnym przyjęta została pojemność takiego
 zasobnika na 10000 mAh -- wartość taka jest często spotykana w~dostępnych na rynku powerbankach (zasilaniach
 bateryjnych stosowanych np. do telefonów), które mogą zasilać urządzenia poprzez podłączenie ich przez USB. Do obliczeń
-wykorzystana została zależność przedstawiona równaniem \ref{eqn:battery-life}
+wykorzystana została zależność przedstawiona równaniem \ref{eqn:battery-life}:
 
 \begin{equation}\label{eqn:battery-life}
     \textsl{Żywotność baterii} = \frac{\textsl{Pojemność baterii (mAh)}}{\textsl{Prąd obciążenia (mA)}}\quad\text{[h]}
@@ -422,7 +462,7 @@ wykorzystana została zależność przedstawiona równaniem \ref{eqn:battery-lif
 Obliczenia wykonane zostały dla przypadku największego poboru prądu przez moduły (SLAVE 3), zakładając ciągłą,
 nieprzerwaną pracę modułu. Otrzymana została wartość:
 \begin{equation*}
-    \textsl{Żywotność baterii} = \mathsf{\frac{10000}{11.73}} = \mathsf{852.5}\text{h}
+    \textsl{Żywotność baterii} = \mathsf{\frac{10000}{11.73}} = \mathsf{852.5}\,\text{h}
 \end{equation*}
 co przeliczając, równa się 35.52 dniom (lub niespełna 5~tygodniom). Biorąc pod uwagę możliwie większe zużycie energii
 związane z~zasilaniem także innych elementów wykorzystanych płytek (diody LED, czujniki BME280, itp.) wartość ta byłaby
