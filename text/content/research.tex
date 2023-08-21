@@ -68,9 +68,9 @@ wyłączona została funkcjonalność pracy na zegarze, a~transmisja uruchamiana
 przycisk na module MASTER).
 
 Pierwsze próby obserwacji komunikacji przeprowadzone zostały na podstawowych ustawieniach modułów -- najniższa wartość
-Spreading Factor, SF7 (7 bitów na symbol), pasmo 125kHz, radio coding rate, CR, 4/5. Takie parametry pozwalają sieci na
+\textsl{Spreading Factor}, SF7 (7 bitów na symbol), pasmo 125kHz, radio coding rate, CR, 4/5. Takie parametry pozwalają sieci na
 szybką komunikację, jednakże w~przypadku analizy widmowej nie pozwoliły one na dobrą obserwację transmisji. W~tym celu
-parametr Spreading Factor przestawiony został na wartość maksymalną, SF12 (12 bitów na symbol). Spowodowało to
+parametr \textsl{Spreading Factor} przestawiony został na wartość maksymalną, SF12 (12 bitów na symbol). Spowodowało to
 wydłużenie czasu każdej transmisji i~jednocześnie pozwoliło na lepszą obserwację. Korzystając ze zmodyfikowanych
 parametrów, wykonane zostało kilkanaście transmisji i~w tym czasie obserwowane było, jak wygląda ich widmo. Rys.
 \ref{img:waterfall-full-mid-transmission} przedstawione zostało, jak wyglądała obserwowana transmisja (tutaj: pełna sieć,
@@ -152,7 +152,7 @@ urządzenia zbierającego dane.
 bezpośrednio w~oprogramowaniu \textsl{gqrx} nie pozwalały na analizę przesyłanych transmisji z~modułów, wykorzystana
 została funkcja zapisu rejestrowanych danych do postaci I/Q (ang. \textsl{In-phase and quadrature components}) do plików
 RAW. W~celu późniejszej analizy danych wykonane zostały 3~zapisy pełnych wymian danych w~sieci w~różnych konfiguracjach,
-z~parametrami modułów ustawionych na podstawowych wartościach z~wyjątkiem Spreading Factor. Parametr ten ustawiony
+z~parametrami modułów ustawionych na podstawowych wartościach z~wyjątkiem \textsl{Spreading Factor}. Parametr ten ustawiony
 został na wartość maksymalną (SF12, 12 bitów na symbol), tak aby uzyskać najlepsze szanse na analizę transmisji.
 
 Dane I/Q to metoda opisu wielkości i~danych fazowych rejestrowanego sygnału, gdzie falę sinusoidalną można przedstawić
@@ -300,7 +300,7 @@ wzorów, w~celu określenia co jest możliwe do uzyskania oraz porównanie fakty
 zebranych danych I/Q oraz wygenerowanych spektrogramów.
 
 \subsection{\label{sect:network-communication-range}Skuteczny zasięg komunikacji} Zasięg komunikacji sprawdzony został
-dla dwóch różnych przypadków. Modyfikując wartość parametru Spreading Factor (SF, długość symbolu, związana z~ilością
+dla dwóch różnych przypadków. Modyfikując wartość parametru \textsl{Spreading Factor} (SF, długość symbolu, związana z~ilością
 przesyłanych bitów) sprawdzone zostały dwa skrajne przypadki -- krótkie, szybkie transmisje dla SF7 oraz wolniejsze,
 dłuższe transmisje dla SF12. Badanie przeprowadzone zostało w~terenie średnio zabudowanym i~częściowo zalesionym.
 Otoczenie to wybrane zostało, ponieważ założyć można było, że komunikacja między modułami będzie odbywać się bez
@@ -338,12 +338,13 @@ modułami. Rys. \ref{img:distance-research-map-sf7} przedstawia wyniki uzyskane 
 \end{figure}
 
 \FloatBarrier
-Kolorem czerwonym oznaczone zostały maksymalne uzyskane odległości dla każdego z~ustawień Spreading Factor. W~przypadku
+Kolorem czerwonym oznaczone zostały maksymalne uzyskane odległości dla każdego z~ustawień \textsl{Spreading Factor}. W~przypadku
 dystansów większych niż zaznaczone, wszystkie przesyłane zapytania kończyły się brakiem wymiany danych -- każdorazowo
 przez przekroczenie maksymalnego czasu oczekiwania na odpowiedź przez moduł MASTER. Uzyskane odległości, na których
-moduły mogły się swobodnie komunikować, były znacznie mniejsze niż sugerowane przez opisywane możliwości standardu LoRa.
+moduły mogły się swobodnie komunikować, były znacznie mniejsze niż sugerowane przez opisywane możliwości standardu LoRa
+-- dokumentacja podaje wartości w zakresie do 2-8 km, w zależności od terenu \cite{semtech-lora-lorawan}.
 
-Niezależnie od wykorzystanego ustawienia parametru Spreading Factor tereny zalesione stanowiły największą przeszkodę dla
+Niezależnie od wykorzystanego ustawienia parametru \textsl{Spreading Factor} tereny zalesione stanowiły największą przeszkodę dla
 komunikacji między modułami. W~obu przypadkach znacznie ograniczona lub całkowity brak występowały już przy 250~m (na
 mapach przedstawionych jako zacieniowane jasnoczerwonym kolorem tereny). Jednakże takie problemy występowały tylko
 w~przypadku, gdzie las był dość gęsty, ponieważ w~przypadkach, gdy na linii pomiędzy modułem MASTER a~modułami SLAVE
@@ -374,26 +375,26 @@ otrzymanych wyników do wyliczonych wartości teoretycznych.
 
 Parametrami, które brane są pod uwagę przy określaniu przepustowości sieci LoRa, są:
 \begin{itemize}[label=--]
-    \item Spreading Factor, $\mathit{SF}$, określa ilość bitów na symbol,
-    \item Code Rate, $\mathit{CR}$, używany do określenia stosunku bitów użytecznych do ilości bitów przesyłanych,
-    \item Bandwidth, $\mathit{BW}$, szerokość pasma transmisji.
+    \item \textsl{Spreading Factor}, $\mathrm{SF}$, określa ilość bitów na symbol,
+    \item Code Rate, $\mathrm{CR}$, używany do określenia stosunku bitów użytecznych do ilości bitów przesyłanych,
+    \item Bandwidth, $\mathrm{BW}$, szerokość pasma transmisji.
 \end{itemize}
-Do wyznaczenia wartości teoretycznych przyjęte zostały $\mathit{CR}$ = 1~oraz $\mathit{BW}$ = 125 kHz, ponieważ dla
+Do wyznaczenia wartości teoretycznych przyjęte zostały $\mathrm{CR}$ = 1~oraz $\mathrm{BW}$ = 125 kHz, ponieważ dla
 takich ustawień zebrane zostały dane I/Q podczas analizy widmowej sygnałów.
 
-Do określenia nominalnej, teoretycznej przepustowości $\mathit{Rb}$ wykorzystana została zależność przedstawiona
+Do określenia nominalnej, teoretycznej przepustowości $\mathrm{Rb}$ wykorzystana została zależność przedstawiona
 równaniem \ref{eqn:lora-bitrate}:
 \begin{equation}\label{eqn:lora-bitrate}
-    \mathit{Rb} = \mathit{SF}\cdot\cfrac{4\cdot{(4+\mathit{CR})^{-1}}}{2^{\mathit{SF}}\cdot{\mathit{BW}^{-1}}}\cdot{1000}\quad\text{[bps]}
+    \mathrm{Rb} = \mathrm{SF}\cdot\cfrac{4\cdot{(4+\mathrm{CR})^{-1}}}{2^{\mathrm{SF}}\cdot{\mathrm{BW}^{-1}}}\cdot{1000}\quad\text{[bps]}
 \end{equation}
 
-Dla ustawienia Spreading Factor, SF7 (7 bitów na symbol) nominalna przepustowość sieci równa jest:
+Dla ustawienia \textsl{Spreading Factor}, SF7 (7 bitów na symbol) nominalna przepustowość sieci równa jest:
 \begin{equation*}
-    \mathit{Rb} = \mathit{SF}\cdot\cfrac{4\cdot{(4+\mathit{CR})^{-1}}}{2^{\mathit{SF}}\cdot{\mathit{BW}^{-1}}}\cdot{1000} = 7 \cdot \frac{4 \cdot 5^{-1}}{2^7\cdot 125^{-1}} \cdot 1000 = 5468.75\,\text{bps} = 5.47\,\text{kbps}
+    \mathrm{Rb} = \mathrm{SF}\cdot\cfrac{4\cdot{(4+\mathrm{CR})^{-1}}}{2^{\mathrm{SF}}\cdot{\mathrm{BW}^{-1}}}\cdot{1000} = 7 \cdot \frac{4 \cdot 5^{-1}}{2^7\cdot 125^{-1}} \cdot 1000 = 5468.75\,\text{bps} = 5.47\,\text{kbps}
 \end{equation*}
 natomiast dla SF12 (12 bitów na symbol) wartość ta jest znacznie mniejsza:
 \begin{equation*}
-    \mathit{Rb} = \mathit{SF}\cdot\cfrac{4\cdot{(4+\mathit{CR})^{-1}}}{2^{\mathit{SF}}\cdot{\mathit{BW}^{-1}}}\cdot{1000} = 12 \cdot \frac{4 \cdot 5^{-1}}{2^{12}\cdot 125^{-1}} \cdot 1000 = 293\,\text{bps}
+    \mathrm{Rb} = \mathrm{SF}\cdot\cfrac{4\cdot{(4+\mathrm{CR})^{-1}}}{2^{\mathrm{SF}}\cdot{\mathrm{BW}^{-1}}}\cdot{1000} = 12 \cdot \frac{4 \cdot 5^{-1}}{2^{12}\cdot 125^{-1}} \cdot 1000 = 293\,\text{bps}
 \end{equation*}
 
 Korzystając ze spektrogramów wygenerowanych na podstawie danych I/Q, przedstawionych na rys.
@@ -454,7 +455,7 @@ odpowiednio dla ustawień SF7 oraz SF12.
 W~uzyskanych wynikach można zauważyć, że poszczególne momenty pracy modułów charakteryzują się różnymi wartościami
 poboru prądu, a~zdecydowanie najwięcej wymagane było podczas komunikacji w~sieci.
 
-Biorąc pod uwagę fakt, że zmiana parametru Spreading Factor w~przypadku zasięgu komunikacji wprowadziła znaczącą zmianę
+Biorąc pod uwagę fakt, że zmiana parametru \textsl{Spreading Factor} w~przypadku zasięgu komunikacji wprowadziła znaczącą zmianę
 w~możliwościach komunikacji, złożone zostało, że podobne zachowanie zostanie zaobserwowane w~przypadku poboru prądu --
 moduły przez wydłużony czas komunikacji będą pobierały widocznie więcej prądu. Jednakże w~przypadku tego badania takie
 zachowanie nie zostało zaobserwowane. Moduły pobierały bardzo zbliżony prąd niezależnie od ustawienia, a~różnice
@@ -479,13 +480,13 @@ bateryjnych stosowanych np. do telefonów), które mogą zasilać urządzenia po
 wykorzystana została zależność przedstawiona równaniem \ref{eqn:battery-life}:
 
 \begin{equation}\label{eqn:battery-life}
-    \textsl{Żywotność baterii} = \frac{\textsl{Pojemność baterii (mAh)}}{\textsl{Prąd obciążenia (mA)}}\quad\text{[h]}
+    \textsl{Żywotność baterii} = \frac{\textsl{Pojemność baterii}\ \text{[mAh]}}{\textsl{Prąd obciążenia}\ \text{[mA]}}\quad\text{[h]}
 \end{equation}
 
 Obliczenia wykonane zostały dla przypadku największego poboru prądu przez moduły (SLAVE 3), zakładając ciągłą,
 nieprzerwaną pracę modułu. Otrzymana została wartość:
 \begin{equation*}
-    \textsl{Żywotność baterii} = \mathsf{\frac{10000}{11.73}} = \mathsf{852.5}\,\text{h}
+    \textsl{Żywotność baterii} = \frac{10000}{11.73} = 852.5\,\text{h}
 \end{equation*}
 co przeliczając, równa się 35.52 dniom (lub niespełna 5~tygodniom). Biorąc pod uwagę możliwie większe zużycie energii
 związane z~zasilaniem także innych elementów wykorzystanych płytek (diody LED, czujniki BME280, itp.) wartość ta byłaby
