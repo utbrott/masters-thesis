@@ -125,7 +125,7 @@ technologiczny (ang. \textsl{technology stack}). Jego schemat przedstawiony zost
 
 Widoczne na schemacie klasy (A, B, C) określają tryb pracy urządzeń operujących w~sieci LoRaWAN. Wszystkie urządzenia
 muszą spełniać operację w~klasie A, urządzenia klasy B~muszą móc operować w~klasie B~oraz klasie A, natomiast
-w~przypadku urządzeń klasy C -- muszą one operować w~każdej z~klas \cite{lorawan-device-class}.
+w~przypadku urządzeń klasy C -- muszą one operować w~każdej z~klas \cite{lorawan-device-class,lorawan-classb-eval}.
 
 Podstawowa klasa -- klasa A~przewiduje 3~okna transmisyjne, 1~na transmisję do sieci (uplink) oraz 2~na odbieranie
 danych (downlink). Urządzenia klasy A~nie mogą być aktuatorami, ponieważ to one rozpoczynają wymianę danych w~sieci.
@@ -136,11 +136,11 @@ Rx2 (drugim oknie odbierania). W~przypadku klasy A, urządzenie nie będzie pró
 odpowiedź w~pierwszym oknie (Rx1) lub jeżeli drugie okno po ostatniej transmisji (Rx2) zostanie zakończone.
 
 Klasa B~urządzeń oferuje możliwość pracy na zaplanowanym harmonogramie z~określonymi, stałymi w~czasie, oknami na
-odbieranie danych. W~przeciwieństwie do klasy A, urządzenia klasy B~nadają się do pracy jako sensory oraz jako
-aktuatory. Praca w~klasie B~jest oparta na procesie nazywanym \textsl{beaconing}. Zsynchronizowane czasowo urządzenie
-(\textsl{beacon}) okresowo nadaje w~sieci poprzez bramy i~dzięki temu urządzenia końcowe synchronizują swój wewnętrzny
-zegar. Dzięki synchronizacji urządzenia mogą nasłuchiwać tylko w~określonych momentach, mając pewność, że w~momencie
-otwarcia swojego okna mogą się spodziewać odbioru danych.
+odbieranie danych \cite{lorawan-classb-eval}. W~przeciwieństwie do klasy A, urządzenia klasy B~nadają się do pracy jako
+sensory oraz jako aktuatory. Praca w~klasie B~jest oparta na procesie nazywanym \textsl{beaconing}. Zsynchronizowane
+czasowo urządzenie (\textsl{beacon}) okresowo nadaje w~sieci poprzez bramy i~dzięki temu urządzenia końcowe
+synchronizują swój wewnętrzny zegar. Dzięki synchronizacji urządzenia mogą nasłuchiwać tylko w~określonych momentach,
+mając pewność, że w~momencie otwarcia swojego okna mogą się spodziewać odbioru danych.
 
 Urządzenia klasy C~operując w~trybie \enquote{zawsze włączone}, więc najczęściej nie są oparte o~zasilanie bateryjne.
 W~tym przypadku są one w~stanie ciągłego nasłuchu, pod warunkiem, że same nie nadają wiadomości do sieci. W~klasie
@@ -149,7 +149,6 @@ do momentu, gdy urządzenie końcowe zaczyna samo nadawać i~trwa jego okno Tx. 
 wiadomości w~prawie każdej chwili.
 
 \FloatBarrier
-
 \subsection{\label{sect:lorawan-architecture}Architektura sieci LoRaWAN} Na sieci oparte o~protokół LoRaWAN składa się
 więcej elementów niż w~przypadku sieci wykorzystujących tylko warstwę fizyczną. Należą do nich: urządzenia końcowe,
 bramy oraz kilka rodzajów serwerów. Implementacja takie rozwiązania jest przez to bardziej złożona, ale zapewnia dzięki

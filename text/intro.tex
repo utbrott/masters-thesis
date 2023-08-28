@@ -1,3 +1,40 @@
 Technologie typu LP-WAN -- rozległe sieci niskiej mocy (ang. \textsl{Low Power Wide Area Networks}) obecnie znajdują
 szereg zastosowań przy budowaniu bezprzewodowych sieci czujnikowych, opierając się o Internet Rzeczy (IoT, ang.
-\textsl{Internet of Things}).
+\textsl{Internet of Things}). Są one bardzo wydajną alternatywą dla sieci komórkowych oraz innych tradycyjnych rozwiązań
+sieci bezprzewodowych krótkiego zasięgu, które wykorzystywane są w środowisku IoT, takich jak ZigBee, Bluetooth. Sieci
+LPWA (ang. \textsl{Low Power, Wide Area}) oferują unikalny zestaw funkcji -- łączność na dużych zasięgach dla urządzeń o
+niskim poborze mocy i wymaganej niskiej szybkości transmisji danych, których inne rozwiązania nie są w stanie zapewnić.
+
+W ostatnim czasie pojawiają się różne standardy, które cieszą się szczególnym zainteresowaniem w przestrzeni technologii
+LP-WAN. Najbardziej popularnymi są LoRa (wykorzystując protokół LoRaWAN)\cite{lora-alliance} oraz Sigfox \cite{sigfox},
+jednakże są dostępne także rozwiązania alternatywne.
+
+Niniejsza praca ma na celu przedstawienie możliwości zbudowania bezprzewodowej sieci czujnikowej, wykorzystując do tego
+standard LoRa. Rozdział \ref{ch:theory} przedstawia teorię związaną ze standardem. Opisuje on jego teoretyczne
+możliwości, odniesienie do definicji zawartych w modelach sieci oraz możliwości związane z budowaniem sieci, a także
+typowe typologie. Ponadto przedstawia działanie modulacji, która jest podstawą standardu LoRa oraz protokołu LoRaWAN --
+wyznaczanie ramek transmisyjnych, analityczny model przebiegu sygnału, a także ważne dla modulacji parametry, które
+mają wpływ na możliwości sieci.
+
+Rozdział \ref{ch:development} skupia się na krokach, które należało podjąć w celu implementacji oprogramowania --
+jakie narzędzia zostały wykorzystane. Opisuje także, jak praca z tymi narzędziami wygląda -- podstawowe informacje na
+ich temat, uruchamianie projektów oraz zarządzanie elementami oprogramowania.
+
+Szczegóły implementacji, podział na poszczególne elementy przedstawia rozdział \ref{ch:implementation}. Opisuje
+wykorzystaną bazę (stm32duino) oraz potrzebne biblioteki, które umożliwiły napisanie kodu źródłowego. Pokazane zostały
+także ograniczenia oraz problemy, które zostały napotkane podczas tworzenia oprogramowania. Ponadto przedstawia
+poszczególne elementy wchodzące w skład oprogramowania, które wykorzystane zostało do badań sieci -- elementy składające
+się na nawiązanie połączenia między modułami, zbieranie danych z podłączonego do modułów sensora temperatury i ciśnienia
+oraz transmisji danych do modułu serwera sieciowego. Opisane zostały także funkcje pozwalające na wyznaczanie średniej
+kroczącej oraz implementacja strony internetowej wykorzystywanej do przeglądania danych zbieranych przez sieć. Rozdział
+\ref{ch:testing} przedstawia wykonane testy, które pozwoliły na określenia czy zaimplementowane oprogramowanie działa
+poprawnie.
+
+Aby określić czy możliwe jest zbudowanie prywatnej sieci czujnikowej bazującej na standardzie LoRa, wykonane zostały jej
+badania. Przedstawia to rozdział \ref{ch:research}. Sprawdzone zostały podstawowe parametry -- możliwości komunikacji
+oraz stopień błędów podczas przesyłania danych. Opisane zostały także przeprowadzona analiza widmowa transmisji między
+modułami oraz podjęte próby obserwacji poszczególnych elementów składowych ramki wiadomości w modulacji LoRa. Ponadto
+rozdział przedstawia wykonane badania w celu określenia skutecznego zasięgu komunikacji, przepustowości sieci, aby móc
+porównać je z wartościami, które podawane są jako możliwości standardu. Dodatkowo opisane zostały wykonane badania
+zużycia energii przez moduły sieci, które miały na celu określenie maksymalnego czasu pracy zaimplementowanego
+rozwiązania w przypadku wykorzystania zasilania bateryjnego.
