@@ -1,14 +1,59 @@
-\streszczeniepracy{
-    Streszczenie po polsku
-}
+\streszczeniepracy{ Standard LoRa, należący do technologii typu LPWA (rozległe sieci niskiej mocy, \textsl{Low Power
+        Wide Area}), jest obecnie przedmiotem zainteresowań w~przypadku analizy możliwości budowania sieci czujnikowych.
+    Oferowane przez niego możliwości -- duże zasięgi oraz niski pobór mocy przez wykorzystywane do implementacji
+    urządzenia to jego główne zalety.
+
+    W~celu sprawdzenia, czy możliwe jest wykorzystanie standardu LoRa do zbudowania prywatnej sieci czujnikowej,
+    pozwalającej na zbieranie danych o~otoczeniu (temperatura, ciśnienie, wilgotność) zostało zaprojektowane oraz
+    zaimplementowane rozwiązanie, które wykorzystane zostało do weryfikacji takiego założenia.
+
+    Niniejsza praca przedstawia informacje potrzebne do zapoznania się ze standardem oraz podstawami jego działania.
+    Opisane zostały działanie modulacji oraz parametry wpływające decydujące o~działaniu sieci i~możliwościach
+    transmisji. Przedstawione zostały także kroki, które wymagane były do implementacji oprogramowania działającego na
+    modułach. Zaimplementowane rozwiązanie wykorzystuje język C++ oraz płytki rozwojowe STM32 Nucleo64 L152.
+    Przedstawione zostały elementy kodu źródłowego odpowiadającego za poszczególne elementy działania oprogramowania --
+    komunikacja między modułami, zbieranie danych z~otoczenia oraz wyznaczanie ich średniej kroczącej, a~także
+    transmisja ich przez magistralę I2C do modułu serwera sieciowego. Ponadto przedstawiona została metoda dekodowania
+    informacji oraz prezentacjach ich użytkownikowi w~formie strony internetowej dostępnej w~sieci lokalnej. Pokazane
+    zostały także przeprowadzone testy, które pozwoliły na sprawdzenie poprawności działania zaimplementowanego
+    rozwiązania. Pełny kod źródłowy dostępny jest w~przestrzeni publicznej, dzięki temu możliwe jest dalsze rozwijanie
+    go.
+
+    Przeprowadzone zostały badania, które miały na celu określenie potencjału zaprojektowanej sieci. Przeanalizowane
+    zostały widmo częstotliwości w~trakcie transmisji danych w~sieci, co pozwoliło na dokładniejsze zapoznanie się ze
+    standardem. Ponadto zweryfikowane zostały skuteczne zasięgi komunikacji oraz przepustowość sieci, jak i~zużycie
+    energii podczas pracy modułów. Zebrane dane pozwoliły na stwierdzenie, że możliwe jest zbudowanie prywatnej sieci
+    czujnikowej, bazując na standardzie LoRa. }
+
 \slowakluczowe{
-
+    sieci czujnikowe, LoRa, IoT, Internet Rzeczy, C++, STM32, mikrokontrolery
 }
 
-\thesisabstract{
-    Abstract in English
-}
+\thesisabstract{The LoRa standard, which belongs to LPWA (\textsl{Low Power Wide Area}) technology, is currently of
+    interest when analysing the feasibility of building sensor networks. The capabilities it offers -- long ranges and
+    low power consumption of the devices used for implementation devices are its main advantages.
+
+    In order to test whether it is possible to use the LoRa standard to build a~private sensor network, allowing the
+    collection of ambient data (temperature, pressure, humidity), a~solution was designed and implemented, which was
+    used to verify such an assumption.
+
+    This work presents the information needed to learn about the standard and the basics of its operation. The operation
+    of the modulation and the influencing parameters determining the network operation and transmission capabilities are
+    described. The steps required to implement the software running on the modules are also presented. The implemented
+    solution uses the C++ language and the STM32 Nucleo64 L152 development boards. The elements of the source code
+    responsible for the various elements of the software operation -- communication between the modules, collecting data
+    from the environment and determining its moving average, and transmitting it via the I2C bus to the network server
+    module -- are presented. In addition, the method of decoding the information and presenting it to the user in
+    the~form of a~web page accessible on the~local network is presented. Testing done to verify the correct operation of
+    the implemented solution is also shown. The full source code is available in the public domain, so that it can be
+    further developed.
+
+    Tests were carried out to determine the potential of the designed network. The frequency spectrum during data
+    transmission over the network was analysed, allowing a~more detailed understanding of the standard. In addition, the
+    effective communication ranges and network throughput were verified, as well as the energy consumption during module
+    operation. The data collected made it possible to conclude that it is possible to build a~private sensor network
+    based on the LoRa standard. }
 
 \thesiskeywords{
-
+    sensor networks, LoRa, IoT, Internet of Things, STM32, microcontrollers
 }

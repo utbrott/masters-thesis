@@ -1,33 +1,33 @@
 Celem pracy było zaprojektowanie, zaimplementowanie oraz weryfikacja hipotezy -- zbadanie możliwości zbudowania
-prywatnej sieci czujnikowej bazującej na standardzie LoRa. W ramach tego zapoznano się z podstawami standardu:
+prywatnej sieci czujnikowej bazującej na standardzie LoRa. W~ramach tego zapoznano się z~podstawami standardu:
 działaniem modulacji, elementami składowymi przesyłanej ramki oraz parametrami wpływającymi na transmisję. Opisany
 został proces przygotowania środowiska do tworzenia oprogramowania, kroki wymagane do zaczęcia pracy, wykorzystane
-biblioteki oraz ograniczenia związane z wybraną platformą. Ponadto przedstawione zostały elementy składające się na
-całość implementowanego oprogramowania -- części dedykowane dla modułów pracujący w budowanej sieci oraz modułu
-wpierającego działanie systemu (serwera sieciowego do prezentacji danych). W pracy przedstawione zostały także
-przeprowadzone badania, które pozwoliły na określenie możliwości budowania sieci czujnikowych opartych o standard LoRa.
+biblioteki oraz ograniczenia związane z~wybraną platformą. Ponadto przedstawione zostały elementy składające się na
+całość implementowanego oprogramowania -- części dedykowane dla modułów pracujący w~budowanej sieci oraz modułu
+wpierającego działanie systemu (serwera sieciowego do prezentacji danych). W~pracy przedstawione zostały także
+przeprowadzone badania, które pozwoliły na określenie możliwości budowania sieci czujnikowych opartych o~standard LoRa.
 
-W ramach części projektowej (implementacji sieci) napisane zostało oprogramowanie, które pozwoliło na komunikację na
-płytki rozwojowe STM32 Nucleo64 L152 wyposażone w moduły LoRa. Oprogramowanie zawiera elementy, które pozwoliły na
-weryfikowanie przesyłanych danych, zbieranie pomiarów oraz wyznaczanie z nich średniej kroczącej, w celu wyeliminowania
-chwilowych znacznych zmian w otoczeniu pracy sieci. Ponadto zaimplementowane zostało oprogramowanie na moduł serwera
-sieciowego, który mógł odbierać dane z modułu MASTER sieci LoRa. W tym celu wykorzystana została zakodowana transmisja
-przez magistralę I2C, która pozwalała na wykrywanie błędów w transmisji danych. Zaimplementowana strona internetowa jest
+W~ramach części projektowej (implementacji sieci) napisane zostało oprogramowanie, które pozwoliło na komunikację na
+płytki rozwojowe STM32 Nucleo64 L152 wyposażone w~moduły LoRa. Oprogramowanie zawiera elementy, które pozwoliły na
+weryfikowanie przesyłanych danych, zbieranie pomiarów oraz wyznaczanie z~nich średniej kroczącej, w~celu wyeliminowania
+chwilowych znacznych zmian w~otoczeniu pracy sieci. Ponadto zaimplementowane zostało oprogramowanie na moduł serwera
+sieciowego, który mógł odbierać dane z~modułu MASTER sieci LoRa. W~tym celu wykorzystana została zakodowana transmisja
+przez magistralę I2C, która pozwalała na wykrywanie błędów w~transmisji danych. Zaimplementowana strona internetowa jest
 bardzo prostym narzędziem pozwalającym na przeglądanie danych zbieranych przez sieć. Element ten mógłby zostać znacznie
 ulepszony przez wykorzystanie innego typu sprzętu. Jednakże wybrana metoda pozwoliła na pokazanie, że nawet bardzo małe
-urządzenia, które mogą działać na zasilaniu bateryjnym, mogą zostać z sukcesem wykorzystane do takiego zadania.
+urządzenia, które mogą działać na zasilaniu bateryjnym, mogą zostać z~sukcesem wykorzystane do takiego zadania.
 
-W ramach badań zweryfikowana została postawiona hipoteza -- czy możliwe jest zbudowanie prywatnej sieci czujnikowej
-bazującej na standardzie LoRa. Przeprowadzone badania pozwoliły na zapoznanie się z wyglądem przesyłanej ramki,
-weryfikację działania sieci (w celu sprawdzenia stopnia błędów w przesyłaniu wiadomości z danymi), sprawdzenie
-skutecznego zasięgu komunikacji oraz przepustowości, a także poboru prądu oraz możliwości wykorzystania zasilania
+W~ramach badań zweryfikowana została postawiona hipoteza -- czy możliwe jest zbudowanie prywatnej sieci czujnikowej
+bazującej na standardzie LoRa. Przeprowadzone badania pozwoliły na zapoznanie się z~wyglądem przesyłanej ramki,
+weryfikację działania sieci (w celu sprawdzenia stopnia błędów w~przesyłaniu wiadomości z~danymi), sprawdzenie
+skutecznego zasięgu komunikacji oraz przepustowości, a~także poboru prądu oraz możliwości wykorzystania zasilania
 bateryjnego do podtrzymania modułów sieci. Otrzymane wyniki badań pozwoliły na określenie, że standard LoRa może zostać
-wykorzystany w przypadku sieci prywatnych, projektowanych na mniejszą skalę.
+wykorzystany w~przypadku sieci prywatnych, projektowanych na mniejszą skalę.
 
-W przyszłości możliwe byłoby rozwinięcie oraz usprawnienie działania zaimplementowanego rozwiązania. Jednym z elementów
+W~przyszłości możliwe byłoby rozwinięcie oraz usprawnienie działania zaimplementowanego rozwiązania. Jednym z~elementów
 byłoby zmiana modułu, sprzętu odpowiedzialnego za funkcję serwera sieciowego do zbierania danych. Możliwe byłoby
-zastosowanie rozwiązania wyposażonego w bazę danych. Pozwoliłoby to na zapisywanie zbieranych danych w celu
-dokładniejszej obróbki oraz bardziej przejrzystej prezentacji ich w oparciu także o dane historyczne, np. poprzez
-wyświetlanie użytkownikowi wykresów pokazujących zmiany w czasie. Zmiana wykorzystanego sprzętu mogłaby też pozwolić na
-usprawnienie działania sieci czujnikowej -- zwiększenie skutecznego zasięgu komunikacji lub zmniejszenie stopnia błędu w
-transmisjach na większych dystansach.
+zastosowanie rozwiązania wyposażonego w~bazę danych. Pozwoliłoby to na zapisywanie zbieranych danych w~celu
+dokładniejszej obróbki oraz bardziej przejrzystej prezentacji ich w~oparciu także o~dane historyczne, np. poprzez
+wyświetlanie użytkownikowi wykresów pokazujących zmiany w~czasie. Zmiana wykorzystanego sprzętu mogłaby też pozwolić na
+usprawnienie działania sieci czujnikowej -- zwiększenie skutecznego zasięgu komunikacji lub zmniejszenie stopnia błędu
+w~transmisjach na większych dystansach.
