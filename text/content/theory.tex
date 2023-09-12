@@ -26,7 +26,7 @@ Zgodnie z~definicją siedmiowarstwowego Modelu Referencyjnego OSI dla sieci, kt�
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{schematics/osi-seven-layers}
+    \includegraphics[width=\textwidth]{schematics/osi-seven-layers}
     \caption{\label{img:osi-seven-layer}Schemat siedmiowarstwowego modelu OSI}
 \end{figure}
 
@@ -112,7 +112,7 @@ zmniejszeniem przepustowości sieci oraz zwiększonym zużyciem energii przez mo
 
 \section{\label{sect:lorawan}Wyższe warstwy -- protokół LoRaWAN} LoRaWAN to ustandaryzowany, otwarty protokół sieciowy,
 za którego utrzymanie odpowiada LoRa Alliance (do którego należą m.in. Semtech oraz ST Microelectronics). Obecnie
-aktualną wersją jest 1.0.4 (październik 2020). Protokół definiuje górne warstwy sieci wykorzystujących warstwę fizyczną
+aktualną wersją jest 1.0.4 z października 2020 r. Protokół definiuje górne warstwy sieci wykorzystujących warstwę fizyczną
 LoRaPHY. Wykorzystując go, możliwe jest budowanie sieci zapewniających komunikację dwukierunkową pomiędzy modułami
 (urządzeniami końcowymi), bramami oraz serwerami. Na LoRaWAN składa się kilka elementów tworzących jej stos
 technologiczny (ang. \textsl{technology stack}). Jego schemat przedstawiony został na rys. \ref{img:lorawan-technology}.
@@ -158,7 +158,8 @@ Przykładowy schemat architektury sieci LoRaWAN przedstawiony został na rys. \r
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{schematics/lorawan-architecture}
-    \caption{\label{img:lorawan-architecture}Schemat architektury sieci LoRaWAN}
+    \caption{\label{img:lorawan-architecture}Schemat architektury sieci LoRaWAN. Linią kropkowaną oznaczono komunikację
+        radiową, przerywaną komunikację wewnętrzną, a ciągłą z symbolem klucza komunikację zabezpieczoną}
 \end{figure}
 
 Urządzeniem końcowym może być np. sensor, który zbiera dane ze swojego otoczenia. Takie urządzenie pracuje najczęściej
@@ -175,7 +176,7 @@ jedna brama poprawnie odbierze wiadomość nadawaną przez urządzenie końcowe.
 Pierwszym typem serwera jest serwer sieciowy LoRaWAN (LNS, ang. \textsl{LoRaWAN network server}). Urządzenie to zarządza
 całą siecią. Dynamicznie modyfikuje parametry w~zależności od zmieniających się warunków oraz zapewnia bezpieczne,
 szyfrowane 128-bitowym standardem AES (ang. \textsl{Advanced Encryption Standard}) połączenie między elementami sieci
-(urządzeniami końcowy a~serwerem aplikacji). Drugim typem serwera są serwery aplikacyjne (ang. \textsl{Application
+(urządzeniami końcowymi a~serwerem aplikacji). Drugim typem serwera są serwery aplikacyjne (ang. \textsl{Application
     server}), których zadaniem jest bezpiecznie odbieranie, zarządzanie oraz interpretacja danych z~sieci. Ponadto
 odpowiedzialne są za generowanie pakietów, które potem przesyłane są do urządzeń końcowych. Ostatnim typem serwera są
 serwery \textsl{Join} -- ich zadaniem jest zarządzanie procesem uruchamiania połączenia do sieci dla urządzeń końcowych,

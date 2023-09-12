@@ -124,16 +124,9 @@ to związane z~ograniczeniami oprogramowania co do maksymalnej szybkości odświ
 
 Poza obserwacją tzw. wykresów wodospadowych (pokazujących zmiany w~widmie w~czasie) udało się także zebrać zapisy
 rozkładu częstotliwości sygnałów podczas transmisji wykonywanych przez moduły. Przedstawione zostało to na rys.
-\ref{img:frequency-graph-no-transmission}, \ref{img:frequency-graph-master-request} oraz
-\ref{img:frequency-graph-slave-response}. Ciekawym faktem jest tutaj widoczna w~przypadku transmisji z~modułów SLAVE
-wyższa moc sygnałów. Spowodowane to było najprawdopodobniej faktem, że były umieszczone bliżej anteny podłączonej do
-urządzenia zbierającego dane.
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.9\textwidth]{research/frequency-graph-no-transmission}
-    \caption{\label{img:frequency-graph-no-transmission}Widok spektrum częstotliwości, gdy żaden z~modułów nie transmituje}
-\end{figure}
+\ref{img:frequency-graph-master-request} oraz \ref{img:frequency-graph-slave-response}. Ciekawym faktem jest tutaj
+widoczna w~przypadku transmisji z~modułów SLAVE wyższa moc sygnałów. Spowodowane to było najprawdopodobniej faktem, że
+były umieszczone bliżej anteny podłączonej do urządzenia zbierającego dane.
 
 \begin{figure}[!htbp]
     \centering
@@ -158,16 +151,16 @@ został na wartość maksymalną (SF12, 12 bitów na symbol), tak aby uzyskać n
 Dane I/Q to metoda opisu wielkości i~danych fazowych rejestrowanego sygnału, gdzie falę sinusoidalną można przedstawić
 w~formie współrzędnych biegunowych \cite{ni-iq-data} korzystając z~równania:
 \begin{equation}
-    f(t) = A\cos{2\pi{ft}+\varphi}
+    A(t)\cdot\cos{\left[2\pi{ft}+\varphi(t)\right]}=\cos{(2\pi{ft})}\cdot A(t)\cos{\left[\varphi(t)\right]}+\cos{(2\pi{ft}+\frac{\pi}{2})}\cdot A(t)\sin{\left[\varphi(t)\right]}
 \end{equation}
 Zarejestrowane w~ten sposób dane (sinusoidę z~modulacją) można rozłożyć na dwie sinusoidy z~modulacją amplitudy, które
 przesunięte są względem siebie w~fazie o ${\pi}/2$ radianów (90 stopni). Zarejestrowaną falę można wówczas przedstawić
 w~złożonym układzie współrzędnych kartezjańskich, w~postaci składowych rzeczywistej i~urojonej, korzystając z~równań:
 \begin{equation}
-    I(t) = A\cos{\varphi}\cos{2\pi{ft}} \quad\text{(Składowa rzeczywista)}
+    I(t) = \cos{(2\pi{ft})}\cdot A(t)\cos{\left[\varphi(t)\right]} \quad\text{(Składowa rzeczywista)}
 \end{equation}
 \begin{equation}
-    Q(t) = A\sin{\varphi}\sin{2\pi{ft}} \quad\text{(Składowa urojona)}
+    Q(t) = -\sin{(2\pi{ft})}\cdot A(t)\sin{\left[\varphi(t)\right]} \quad\text{(Składowa urojona)}
 \end{equation}
 
 Korzystając z~zarejestrowanych zapisów, gdzie każdy miał długość około 25 sekund i~składał się z~około 25 milionów
@@ -399,12 +392,12 @@ natomiast dla SF12 (12 bitów na symbol) wartość ta jest znacznie mniejsza:
 
 Korzystając ze spektrogramów wygenerowanych na podstawie danych I/Q, przedstawionych na rys.
 \ref{img:signal2-zoomed-analysis} oraz \ref{img:signal3-zoomed-analysis} możliwe było określenie, że na każdą
-z~zarejestrowanych transmisji składało się w~sumie 24 do 25 symboli (8 preambuły, 4.25 synchronizacji oraz około 12
-właściwej przesyłanej wiadomości), które zostały przesłane w~czasie około 820 milisekund. Wiedząc, że zarejestrowane
+z~zarejestrowanych transmisji składało się w~sumie 24 do 25 symboli (8 preambuły, 4.25 synchronizacji oraz około 11
+właściwej przesyłanej wiadomości), które zostały przesłane w~czasie około 960 milisekund. Wiedząc, że zarejestrowane
 transmisje korzystały z~ustawienia SF12 (czyli 12 bitów na symbol), wyznaczona została ilość przesłanych w~sumie bitów
--- około 290. Na podstawie tych informacji możliwe było określenie szacowanej uzyskanej szybkości transmisji
-(przepustowości sieci) na około 353 bps (bitów na sekundę). Otrzymane wartości były zbliżone do wartości nominalnych,
-w~tym przypadku nawet wyższe niż zostało to wyznaczone teoretycznie.
+-- około 276. Na podstawie tych informacji możliwe było określenie szacowanej uzyskanej szybkości transmisji
+(przepustowości sieci) na około 287.5 bps (bitów na sekundę). Otrzymane wartości szacowane były zbliżone do wartości
+nominalnych.
 
 \FloatBarrier
 \section{\label{sect:network-power-params}Badanie poboru prądu i~zużycia energii} Ważnym elementem określającym jak
@@ -430,7 +423,8 @@ STM32L152RE. Fragment schematu z~dokumentacji płytki \cite{stm-product-overview
 na rys. \ref{img:stm32-l152re-schematic-frag}. Gdy była ona założona na wyprowadzone piny, mikrokontroler był zasilany,
 wykorzystując płytkę rozszerzenia ze złączem Mini USB typu B, z~portu USB komputera, gdzie moduł był podłączony.
 W~momencie, gdy była ona usunięta, możliwe było w~to miejsce podłączenie amperomierza, co umożliwiało pomiar prądu
-pobieranego bezpośrednio przez mikrokontroler.
+pobieranego bezpośrednio przez mikrokontroler. Do pomiarów wykorzystany został multimetr uniwersalny 4-cyfrowy DT-9205A
+ustawiony w tryb miliamperomierza. Wykorzystany został zakres do 20 mA, gdzie dokładność pomiarowa wynosiła $\pm 2\%$.
 
 \begin{figure}[!htbp]
     \centering

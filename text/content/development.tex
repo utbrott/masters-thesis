@@ -1,8 +1,8 @@
 Oprogramowanie wszystkich elementów zostało napisane z~wykorzystaniem PlatformIO. Narzędzie pozwala na budowanie pod
 systemy wbudowane na wiele platform \cite{pio-platforms}, w~tym wykorzystane do zbudowania sieci STMicroelectronics
-STM32 Nucleo. Do kompilacji kodu źródłowego możliwe jest użycie wtyczki do edytora Visual Studio Code
-\enquote{PlatformIO IDE} lub samodzielnego narzędzia CLI (ang. \textsl{Command Line Interface}) \enquote{PlatformIO
-    Core}.
+STM32 Nucleo oraz Adafruit Feather M0. Do kompilacji kodu źródłowego możliwe jest użycie wtyczki do edytora Visual
+Studio Code \enquote{PlatformIO IDE} lub samodzielnego narzędzia CLI (ang. \textsl{Command Line Interface})
+\enquote{PlatformIO Core}.
 
 Rozwiązanie to zostało wybrane jako główne narzędzie do kompilacji oraz wgrywania kodu źródłowego, z~uwagi na to, że
 działa na wielu plaformach. Dzięki temu nie jest wymagane instalowanie oraz ustawianie osobnych, dedykowanych środowisk
@@ -10,10 +10,34 @@ dla każdej z~wykorzystywanych platform. Jedynym wymogiem, aby móc zacząć pra
 ustawienie podstawowej konfiguracji. Zadanie to jest bardzo proste, ponieważ dokumentacja narzędzia jest rozbudowana
 i~bardzo szczegółowa.
 
+\section{\label{sect:hardware-used}Platforma sprzętowa} Do zbudowania sieci wykorzystane zostały dwa typy
+mikrokontrolerów, jeden z nich -- STM32 Nucleo64 L152RE -- do modułów sieci LoRa, natomiast drugi do serwera sieciowego
+-- Adafruit Feather M0. Na rys. \ref{img:master-webserver-module} oraz \ref{img:slave-module} przedstawione zostały
+ich zdjęcia. Wykorzystane mikrokontrolery są w postaci gotowych płytek rozwojowych, które pozwalają na łatwe zbudowanie
+stanowiska testowego. W przypadku modułów sieci LoRa wykorzystane zostały także dodatkowe czujniki otoczenia w postaci
+sensorów BME280 umieszczonych na oddzielnych płytkach z wyprowadzonymi pinami, gdzie podłączyć można przewody od płytki
+mikrokontrolera.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{photos/master-webserver-module}
+    \caption{\label{img:master-webserver-module}Zdjęcie przedstawiające płytki rozwojowe Nucleo L152RE (większy,
+        z~anteną) modułu sieci LoRa oraz Feather M0 modułu serwera sieciowego (mniejszy, wpięty w płytkę prototypową)}
+\end{figure}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{photos/slave-module}
+    \caption{\label{img:slave-module}Zdjęcie przedstawiające płytkę rozwojową modułu podrzędnego sieci LoRa z
+        podłączonym do niej czujnikiem otoczenia}
+\end{figure}
+
+
 \section{Rozpoczęcie projektu z~PlatformIO Core\label{sect:pio-intro}} Całość sieci składa się z~dwóch oddzielnych
-projektów -- pierwszy z~nich to projekt uniwersalny dla modułów MASTER oraz SLAVE sieci LoRa, drugi natomiast
-wykorzystywany jest do mikrokontrolera Adafruit Feather M0. Aby rozpocząć nowy projekt, należy wykorzystać komendę,
-gdzie argumentem jest docelowy mikrokontroler:
+projektów -- pierwszy z~nich to projekt uniwersalny dla mikrokontrolerów STM32 Nucleo L152RE modułu nadrzędnego (dalej
+nazywanego \textsl{MASTER}) oraz modułów podrzędnych (dalej \textsl{SLAVE}) sieci LoRa, drugi natomiast wykorzystywany
+jest do mikrokontrolera Adafruit Feather M0. Aby rozpocząć nowy projekt, należy wykorzystać komendę, gdzie argumentem
+jest docelowy mikrokontroler:
 \begin{verbatim}
    pio project init --board <board>
 \end{verbatim}
@@ -25,7 +49,7 @@ wirtualnej, na świeżo zainstalowanym PlaformIO wymagane było pobranie oraz in
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{screenshots/pio-project-init}
+    \includegraphics[width=0.95\textwidth]{screenshots/pio-project-init}
     \caption{\label{img:pio-project-init}Tworzenie nowego projektu wykorzstując do tego PlatformIO Core (CLI)}
 \end{figure}
 
@@ -75,7 +99,7 @@ do kompilacji projektu przedstawione zostało na rys. \ref{img:pio-run}.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{screenshots/pio-run}
+    \includegraphics[width=0.95\textwidth]{screenshots/pio-run}
     \caption{\label{img:pio-run}Przykładowe wywołanie komendy \texttt{pio run}, tutaj do kompilacji projektu}
 \end{figure}
 
@@ -100,12 +124,12 @@ Podczas instalacji (co widoczne jest na zrzucie ekranu) narzędzie weryfikuje --
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{screenshots/pio-pkg-search}
+    \includegraphics[width=0.95\textwidth]{screenshots/pio-pkg-search}
     \caption{\label{img:pio-pkg-search}Wyniki wyszukiwania bibliotek powiązanych z~hasłem \enquote{LoRa}}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{screenshots/pio-pkg-install}
+    \includegraphics[width=0.95\textwidth]{screenshots/pio-pkg-install}
     \caption{\label{img:pio-pkg-install}Przykład wykorzystania komendy do instalacji bibliotek w~projekcie}
 \end{figure}

@@ -5,8 +5,8 @@ platformę sprzętową. Firmware napisany został z~wykorzystaniem kilku różny
 \begin{itemize}[label=--]
     \item modułowego: każdy plik źródłowy odpowiada za zbiór funkcji wykonujących określone zadania (np. praca
           z~biblioteką do modułów LoRa zaimplementowana jest w~pliku \texttt{lora.cpp}),
-    \item obiektowego: większość elementów kodu źródłowego jest reprezentowana w~postaci osobnego obiektu. Każdy
-          z~nich posiada swoje funkcje oraz pełni określone zadania (np. obiekt \enquote{\texttt{bme}} ma za zadanie
+    \item obiektowego: większość elementów kodu źródłowego jest reprezentowana w~postaci osobnego obiektu. Każdy z~nich
+          posiada swoje atrybutu i metody oraz pełni określone zadania (np. obiekt \enquote{\texttt{bme}} ma za zadanie
           umożliwić współpracę z~sensorami dostępnymi na płytce czujników BME280, która podłączona jest do każdego
           modułu SLAVE).
 \end{itemize}
@@ -75,7 +75,7 @@ Schemat ideowy budowanej sieci przedstawiony został na rys. \ref{img:network-sc
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{lora-psn/images/network-schematic}
+    \includegraphics[width=0.8\textwidth]{schematics/network-schematic}
     \caption{\label{img:network-schematic}Schemat zbudowanej sieci, z~oznaczonymi elementami komunikacji}
 \end{figure}
 
@@ -311,7 +311,8 @@ z~danymi. Implementacja tego fragmentu kodu została przedstawiona na listingu \
 
 Odczytywanie danych z~sensora odbywa się wykorzystując funkcję \texttt{sensor::readRaw()}, która przedstawiona jest na
 listingu \ref{lst:sensor-readraw}. Jedynym jej zadaniem jest odczytanie wszystkich potrzebnych danych oraz dodanie tych
-wartości do tablicy dla średniej kroczącej.
+wartości do tablicy dla średnich kroczących z wszystkich parametrów zbieranych przez sensor BME280 -- temperatury,
+wilgotności, ciśnienia.
 
 \lstinputlisting[
     language=c++,
@@ -323,13 +324,13 @@ wartości do tablicy dla średniej kroczącej.
 
 Obliczanie średniej kroczącej rozwiązane zostało poprzez zainicjowanie zaimplementowanej do tego klasy --
 \texttt{RollingAvg}. Jej definicja przedstawiona została na listingu \ref{lst:rollingavg-class}. W~celu uzyskania
-optymalnego działania kodu -- średnia krocząca jest zadaniem dość intensywnym obliczeniowo -- zastosowane zostało
-przydzielanie pamięci (ang. \textsl{memory allocation}) poprzez \texttt{malloc()} oraz wypełnianie tablicy samymi zerami
-przy początkowej deklaracji obiektu, dzięki czemu dodawanie wartości jest znacznie szybsze, ponieważ algorytm nie musi
-każdorazowo powiększać rozmiaru tablicy. Podczas dodawania wartości do średniej wykonywane jest kilka kroków:
-sprawdzenie, czy tablica na pewno istnieje, odjęcie od sumy wartości z~obecnego indeksu oraz zastępowanie jej nową,
-zwiększanie indeksu lub zerowanie go, jeżeli wskaźnik dotarł do maksymalnej wartości. Działanie algorytmu przedstawione
-zostało na rys. \ref{img:rolling-average}, natomiast na listingu \ref{lst:rollingavg-add} jego implementacja.
+optymalnego działania kodu -- zastosowane zostało przydzielanie pamięci (ang. \textsl{memory allocation}) poprzez
+\texttt{malloc()} oraz wypełnianie tablicy samymi zerami przy początkowej deklaracji obiektu, dzięki czemu dodawanie
+wartości jest znacznie szybsze, ponieważ algorytm nie musi każdorazowo powiększać rozmiaru tablicy. Podczas dodawania
+wartości do średniej wykonywane jest kilka kroków: sprawdzenie, czy tablica na pewno istnieje, odjęcie od sumy wartości
+z~obecnego indeksu oraz zastępowanie jej nową, zwiększanie indeksu lub zerowanie go, jeżeli wskaźnik dotarł do
+maksymalnej wartości. Działanie algorytmu przedstawione zostało na rys. \ref{img:rolling-average}, natomiast na listingu
+\ref{lst:rollingavg-add} jego implementacja.
 
 \lstinputlisting[
     language=c++,
@@ -430,7 +431,7 @@ kodu przedstawia diagram blokowy na rys. \ref{img:webserver-firmware}, natomiast
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.35\textwidth]{feather-ws/images/firmware-flowchart}
+    \includegraphics[width=0.25\textwidth]{feather-ws/images/firmware-flowchart}
     \caption{\label{img:webserver-firmware}Diagram blokowy sekcji \texttt{setup()} oprogramowania modułu
         serwera sieciowego}
 \end{figure}
