@@ -438,7 +438,7 @@
     showspaces=false,
     showstringspaces=false,
     showtabs=false,
-    tabsize=2,
+    tabsize=1,
     frame=lB,
     frameround=tttt,
     inputpath=src

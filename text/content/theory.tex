@@ -3,7 +3,7 @@ Standard LoRa (nazwa pochodzi od angielskich słów \textsl{Long Range}) należy
 szerokopasmowe impulsy typu \enquote{chirp} modulowane liniową częstotliwością w~celu kodowania przesyłanych informacji.
 Sygnał jest sinusoidą, której częstotliwość wzrasta (\enquote{upchirp}) lub maleje (\enquote{downchirp}) w~czasie
 \cite{semtech-lora-lorawan,ieee-802-15-4-2006}. LoRa jest technologią modulacji sygnałów przeznaczoną do budowania sieci
-niskiej mocy o~dużym zasięgu (LPWAN, ang. \textsl{Low Power, Wide Area Network}).
+niskiej mocy o~dużym zasięgu (LPWAN, ang. \textsl{Low Power, Wide Area Network}) \cite{long-range-unlicensed}.
 
 Wykorzystanie LoRa pozwala na budowanie sieci, które mogą transmitować na bardzo duże odległości -- teoretycznie do 5~km
 w~terenach zabudowanych oraz do 15 km na terenach otwartych \cite{semtech-lora-lorawan}, zużywając przy tym małe ilości
@@ -36,11 +36,15 @@ pomiędzy modułami sieci metodą urządzenie-urządzenie (D2D, ang. \textsl{dev
 ograniczone możliwości weryfikacji integralności (spójności) danych. Sama warstwa fizyczna nie posiada żadnego
 mechanizmu rozpoznawania wysyłanych lub odbieranych danych, dostępne są tylko kody CRC (ang. \textsl{Cyclic Redundancy
     Check}), które pozwalają tylko na zero-jedynkowe określenie czy wystąpił błąd, bez możliwości określenia, w~którym
-momencie wystąpił czy podjęcia próby naprawienia go. Topologiami, które można zastosować, są topologia gwiazdowa (ang.
-\textsl{star}) -- jeden moduł centralny, z~którym bezpośrednio komunikują się pozostałe urządzenia lub topologia siatki
-(ang. \textsl{mesh}) -- moduły połączone są ze sobą w~grupy (np. na podstawie ich lokalizacji), transmisje odbywają się
-na zasadzie ogłoszeń i~przesyłane dalej do momentu, gdy dotrą do adresata. Schematy takich topologii przestawione
-zostały na rys. \ref{img:network-topologies}.
+momencie wystąpił czy podjęcia próby naprawienia go. W przypadku redukcji błędów lepiej radzi sobie LoRaWAN, która
+wyposażona jest w mechanizm \enquote{korekcji błędów w przód} (FEC, ang. \textsl{Forward Error Correction}), jednakże
+według badań i tak możliwa jest strata ponad 25\% danych przez uszkodzone ramki \cite{lora-crc}.
+
+Istnieje kilka topologii, które można zastosować przy budowaniu sieci czujnikowych \cite{network-topologies}. Należą do
+nich topologia gwiazdowa (ang. \textsl{star}) -- jeden moduł centralny, z~którym bezpośrednio komunikują się pozostałe
+urządzenia lub topologia siatki (ang. \textsl{mesh}) -- moduły połączone są ze sobą w~grupy (np. na podstawie ich
+lokalizacji), transmisje odbywają się na zasadzie ogłoszeń i~przesyłane dalej do momentu, gdy dotrą do adresata.
+Schematy takich topologii przestawione zostały na rys. \ref{img:network-topologies}.
 
 \begin{figure}[!htbp]
     \centering
@@ -52,9 +56,10 @@ zostały na rys. \ref{img:network-topologies}.
 \section{\label{sect:lora-modulation}Modulacja LoRa Spread Spectrum} W~modulacji LoRa rozproszenie widma uzyskiwane jest
 dzięki generowaniu sygnałów typu chirp (tzw. \enquote{świergotach}), które posiadają ciągłą zmianę w~ich częstotliwości.
 Przy wykorzystaniu takiej metody przesunięcia w~czasie oraz częstotliwości są identyczne dla nadajnika, jak
-i~odbiornika, dzięki czemu złożoność konstrukcji odbiornika może być znacznie zredukowana \cite{lora-modulation-basics}.
-Ponadto LoRa wykorzystuje rozproszenie ortogonalne (prostopadłe), co pozwala urządzeniom pracującym w~sieci na dodatkowe
-oszczędzanie energii poprzez dostosowanie swoich parametrów pracy w~stosunku do potrzeb.
+i~odbiornika, dzięki czemu złożoność konstrukcji odbiornika może być znacznie zredukowana
+\cite{lora-modulation-basics,dedicated-network-iot}. Ponadto LoRa wykorzystuje rozproszenie ortogonalne (prostopadłe),
+co pozwala urządzeniom pracującym w~sieci na dodatkowe oszczędzanie energii poprzez dostosowanie swoich parametrów pracy
+w~stosunku do potrzeb.
 
 Jedna ramka transmisji LoRa składa się z~ciągu zmodulowanych symboli $s(nT_s)$, zgodnie z~zależnością
 \cite{lora-modulation-fscm,lora-emulator}:
